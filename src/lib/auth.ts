@@ -33,7 +33,13 @@ export interface AuthResponse {
 }
 
 class AuthService {
-	private baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+	private baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+	
+	constructor() {
+		if (!this.baseUrl) {
+			throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable must be set');
+		}
+	}
 
 	async signUp(data: SignUpData): Promise<AuthResponse> {
 		try {

@@ -20,7 +20,11 @@ class GoogleAuthService {
   private redirectUri: string;
 
   constructor() {
-    this.clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '';
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      throw new Error('NEXT_PUBLIC_GOOGLE_CLIENT_ID environment variable must be set');
+    }
+    this.clientId = clientId;
     this.redirectUri = typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : '';
   }
 

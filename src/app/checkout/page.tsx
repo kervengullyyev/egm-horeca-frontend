@@ -133,7 +133,12 @@ export default function CheckoutPage() {
 			console.log('Order data being sent:', orderData);
 
 			// Create order
-			const orderResponse = await fetch('http://localhost:8000/api/v1/orders/', {
+			const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+			if (!apiBaseUrl) {
+				throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable must be set');
+			}
+			
+			const orderResponse = await fetch(`${apiBaseUrl}/api/v1/orders/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -186,7 +191,7 @@ export default function CheckoutPage() {
 			console.log('Stripe request data:', stripeRequestData);
 
 			// Create Stripe checkout session with order ID
-			const response = await fetch('http://localhost:8000/api/v1/stripe/create-checkout-session', {
+			const response = await fetch(`${apiBaseUrl}/api/v1/stripe/create-checkout-session`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

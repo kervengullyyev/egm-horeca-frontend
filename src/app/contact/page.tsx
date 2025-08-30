@@ -23,7 +23,12 @@ export default function ContactPage() {
     };
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/messages/', {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+      if (!apiBaseUrl) {
+        throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable must be set');
+      }
+      
+      const response = await fetch(`${apiBaseUrl}/api/v1/messages/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

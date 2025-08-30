@@ -26,7 +26,12 @@ export default function CheckoutSuccessPage() {
 
 	const fetchSessionDetails = async (sessionId: string) => {
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'}/api/v1/stripe/session/${sessionId}`);
+			const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+			if (!apiBaseUrl) {
+				throw new Error('NEXT_PUBLIC_API_BASE_URL environment variable must be set');
+			}
+			
+			const response = await fetch(`${apiBaseUrl}/api/v1/stripe/session/${sessionId}`);
 			if (response.ok) {
 				const data = await response.json();
 				setSessionDetails(data);
