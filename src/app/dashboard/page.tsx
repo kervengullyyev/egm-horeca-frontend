@@ -78,7 +78,7 @@ export default function DashboardPage() {
 									onClick={() => setActiveSection("personal-info")}
 									className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
 										activeSection === "personal-info"
-											? "bg-gray-700 text-white"
+											? "bg-primary text-primary-foreground"
 											: "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
 									}`}
 								>
@@ -88,7 +88,7 @@ export default function DashboardPage() {
 									onClick={() => setActiveSection("orders")}
 									className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
 										activeSection === "orders"
-											? "bg-gray-700 text-white"
+											? "bg-primary text-primary-foreground"
 											: "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
 									}`}
 								>
@@ -98,7 +98,7 @@ export default function DashboardPage() {
 									onClick={() => setActiveSection("address")}
 									className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
 										activeSection === "address"
-											? "bg-gray-700 text-white"
+											? "bg-primary text-primary-foreground"
 											: "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
 									}`}
 								>
@@ -108,7 +108,7 @@ export default function DashboardPage() {
 									onClick={() => setActiveSection("payment")}
 									className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
 										activeSection === "payment"
-											? "bg-gray-700 text-white"
+											? "bg-primary text-primary-foreground"
 											: "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
 									}`}
 								>
@@ -118,7 +118,7 @@ export default function DashboardPage() {
 									onClick={() => setActiveSection("password")}
 									className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
 										activeSection === "password"
-											? "bg-gray-700 text-white"
+											? "bg-primary text-primary-foreground"
 											: "bg-white text-gray-900 border border-gray-200 hover:bg-gray-50"
 									}`}
 								>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
 								{/* Logout Button */}
 								<button
 									onClick={handleSignOut}
-									className="w-full text-left px-4 py-3 rounded-lg font-medium bg-gray-600 text-white hover:bg-gray-700 transition-colors"
+									className="w-full text-left px-4 py-3 rounded-lg font-medium bg-gray-600 text-primary-foreground hover:bg-primary transition-colors"
 								>
 									Logout
 								</button>
@@ -220,7 +220,7 @@ export default function DashboardPage() {
 										<button
 											type="button"
 											onClick={handleUpdateChanges}
-											className="w-full bg-gray-700 text-white py-3 px-6 rounded-lg font-medium hover:bg-gray-800 transition-colors"
+											className="w-full bg-primary text-primary-foreground py-3 px-6 rounded-lg font-medium hover:bg-primary/90 transition-colors"
 										>
 											Update Changes
 										</button>

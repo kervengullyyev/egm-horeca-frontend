@@ -159,7 +159,7 @@ export default function CartPage() {
 							{/* Action Buttons */}
 							<div className="space-y-3">
 								<Link href="/checkout" className="block">
-									<button className="h-12 w-full rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Proceed to checkout</button>
+									<button className="h-12 w-full rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90">Proceed to checkout</button>
 								</Link>
 								<button className="h-12 w-full rounded-lg border border-black/20 bg-white text-foreground font-semibold hover:bg-black/5">Continue shopping</button>
 							</div>

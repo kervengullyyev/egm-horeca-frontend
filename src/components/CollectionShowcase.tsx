@@ -19,7 +19,7 @@ function CollectionCard({ name }: { name: string }) {
 			{/* image placeholder */}
 			<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.18),_transparent_60%)]" />
 			<div className="relative flex h-[220px] w-full items-end justify-between p-4">
-				<p className="text-base font-semibold text-white drop-shadow">{name}</p>
+				<p className="text-base font-semibold text-primary-foreground drop-shadow">{name}</p>
 				<span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-black shadow">
 					<ArrowUpRight className="h-4 w-4" />
 				</span>
@@ -39,7 +39,7 @@ export default function CollectionShowcase() {
 					</h2>
 					<div className="max-w-md">
 						<div className="flex justify-end">
-							<button className="inline-flex items-center gap-2 rounded-md bg-black px-4 py-2 text-xs font-semibold text-white">
+							<button className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground">
 								View More
 								<ArrowUpRight className="h-4 w-4" />
 							</button>

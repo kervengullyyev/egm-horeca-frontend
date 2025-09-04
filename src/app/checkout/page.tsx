@@ -529,7 +529,7 @@ export default function CheckoutPage() {
 								<button
 									type="submit"
 									form="checkout-form"
-									className="h-12 w-full rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700"
+									className="h-12 w-full rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90"
 								>
 									Proceed to Payment
 								</button>

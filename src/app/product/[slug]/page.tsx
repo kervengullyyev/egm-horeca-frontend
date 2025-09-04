@@ -10,6 +10,14 @@ import { toggleFavorite } from "@/lib/favorites";
 import { api, Product, ProductVariant } from "@/lib/api";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -27,6 +35,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 	const [variants, setVariants] = useState<ProductVariant[]>([]);
 	const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
 	const [currentPrice, setCurrentPrice] = useState(0);
+	const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
 
 	useEffect(() => {
@@ -95,6 +104,22 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 
 		fetchProductData();
 	}, [slug]);
+
+	// Sync carousel with image index
+	useEffect(() => {
+		if (!carouselApi) return;
+		
+		carouselApi.on("select", () => {
+			setImageIndex(carouselApi.selectedScrollSnap());
+		});
+	}, [carouselApi]);
+
+	// Sync image index with carousel
+	useEffect(() => {
+		if (!carouselApi) return;
+		
+		carouselApi.scrollTo(imageIndex);
+	}, [carouselApi, imageIndex]);
 
 	// Initialize favorites from localStorage
 	useEffect(() => {
@@ -268,9 +293,11 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 			<div className="mx-auto max-w-7xl px-4 py-8">
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
 					{/* Left: Gallery */}
-					<div className="grid grid-cols-[88px_1fr] items-start gap-4">
-						{/* Thumbnail list */}
-						<ul className="flex max-h-[640px] flex-col gap-3 overflow-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+					<div className="space-y-4">
+						{/* Desktop: Side-by-side layout */}
+						<div className="hidden lg:grid grid-cols-[88px_1fr] items-start gap-4">
+							{/* Thumbnail list - Desktop */}
+							<ul className="flex max-h-[640px] flex-col gap-3 overflow-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 							{hasImages ? (
 								images.map((image, idx) => (
 									<li key={idx}>
@@ -322,10 +349,10 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 									</li>
 								))
 							)}
-						</ul>
+							</ul>
 
-						{/* Main image */}
-						<div className="relative overflow-hidden rounded-xl border border-black/10">
+							{/* Main image - Desktop */}
+							<div className="relative overflow-hidden rounded-xl border border-black/10">
 							{hasImages ? (
 								<Image 
 									key={imageIndex}
@@ -366,6 +393,146 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 									</button>
 								</div>
 							)}
+							</div>
+						</div>
+
+						{/* Mobile: Stacked layout */}
+						<div className="lg:hidden space-y-4">
+							{/* Main image carousel - Mobile */}
+							{hasImages && images.length > 1 ? (
+								<div className="relative">
+									<Carousel
+										setApi={setCarouselApi}
+										opts={{
+											align: "start",
+											loop: true,
+										}}
+										className="w-full"
+									>
+										<CarouselContent>
+											{images.map((image, idx) => (
+												<CarouselItem key={idx}>
+													<div className="relative overflow-hidden rounded-xl border border-black/10">
+														<Image 
+															src={image} 
+															alt={`${product.name_en} ${idx + 1}`}
+															width={600}
+															height={750}
+															className="aspect-[4/5] w-full object-cover"
+															onError={() => {
+																const imgElement = document.querySelector(`[alt="${product.name_en} ${idx + 1}"]`) as HTMLElement;
+																if (imgElement) imgElement.style.display = 'none';
+																const placeholder = imgElement?.nextElementSibling as HTMLElement;
+																if (placeholder) placeholder.style.display = 'flex';
+															}}
+														/>
+														<div className="hidden h-full w-full bg-gray-200 flex items-center justify-center">
+															<ImageIcon className="h-16 w-16 text-gray-400" />
+														</div>
+													</div>
+												</CarouselItem>
+											))}
+										</CarouselContent>
+									</Carousel>
+									
+									{/* Fixed dots indicator */}
+									<div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+										{images.map((_, dotIdx) => (
+											<button
+												key={dotIdx}
+												onClick={() => {
+													if (carouselApi) {
+														carouselApi.scrollTo(dotIdx);
+													}
+												}}
+												className={`w-2 h-2 rounded-full transition-all duration-200 ${
+													imageIndex === dotIdx 
+														? 'bg-white shadow-lg' 
+														: 'bg-white/50 hover:bg-white/75'
+												}`}
+												aria-label={`Go to image ${dotIdx + 1}`}
+											/>
+										))}
+									</div>
+								</div>
+							) : (
+								<div className="relative overflow-hidden rounded-xl border border-black/10">
+									{hasImages ? (
+										<Image 
+											src={images[0]} 
+											alt={product.name_en}
+											width={600}
+											height={750}
+											className="aspect-[4/5] w-full object-cover"
+											onError={() => {
+												const imgElement = document.querySelector(`[alt="${product.name_en}"]`) as HTMLElement;
+												if (imgElement) imgElement.style.display = 'none';
+												const placeholder = imgElement?.nextElementSibling as HTMLElement;
+												if (placeholder) placeholder.style.display = 'flex';
+											}}
+										/>
+									) : null}
+									{/* Fallback placeholder */}
+									<div className={`aspect-[4/5] w-full bg-gradient-to-b from-gray-200 to-gray-300 flex items-center justify-center ${hasImages ? 'hidden' : 'flex'}`}>
+										<ImageIcon className="h-16 w-16 text-gray-400" />
+									</div>
+								</div>
+							)}
+
+							{/* Thumbnail list - Mobile */}
+							<ul className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+								{hasImages ? (
+									images.map((image, idx) => (
+										<li key={idx} className="flex-shrink-0">
+											<button
+												onClick={() => setImageIndex(idx)}
+												onMouseEnter={() => setImageIndex(idx)}
+												className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
+													imageIndex === idx 
+														? "border-black border-2 shadow-lg ring-2 ring-black/20" 
+														: "border-black/10 hover:border-black/30"
+												}`}
+											>
+												<Image 
+													src={image} 
+													alt={`${product.name_en} ${idx + 1}`}
+													width={64}
+													height={64}
+													className="h-full w-full object-cover"
+													onError={() => {
+														const imgElement = document.querySelector(`[alt="${product.name_en} ${idx + 1}"]`) as HTMLElement;
+														if (imgElement) imgElement.style.display = 'none';
+														const placeholder = imgElement?.nextElementSibling as HTMLElement;
+														if (placeholder) placeholder.style.display = 'block';
+													}}
+												/>
+												<div className="hidden h-full w-full bg-gray-200 flex items-center justify-center">
+													<ImageIcon className="h-6 w-6 text-gray-400" />
+												</div>
+											</button>
+										</li>
+									))
+								) : (
+									// Fallback thumbnails
+									Array.from({ length: 4 }).map((_, idx) => (
+										<li key={idx} className="flex-shrink-0">
+											<button
+												onClick={() => setImageIndex(idx)}
+												onMouseEnter={() => setImageIndex(idx)}
+												className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
+													imageIndex === idx 
+														? "border-black border-2 shadow-lg ring-2 ring-black/20" 
+														: "border-black/10 hover:border-black/30"
+												}`}
+											>
+												<div className="h-full w-full bg-gray-200 flex items-center justify-center">
+													<ImageIcon className="h-6 w-6 text-gray-400" />
+												</div>
+											</button>
+										</li>
+									))
+								)}
+							</ul>
 						</div>
 					</div>
 
@@ -407,7 +574,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 						<div className="mt-8 space-y-3">
 							<button
 								onClick={onAddToCart}
-								className="w-full px-6 py-3 rounded-full font-medium transition-colors bg-black text-white hover:bg-gray-800"
+								className="w-full px-6 py-3 rounded-full font-medium transition-colors bg-primary text-primary-foreground hover:bg-primary/90"
 							>
 								{addedToCart ? t('addedToCart') : t('addToCart')}
 							</button>
@@ -444,7 +611,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
 								</a>
 								<a
 									href="tel:+40700000000"
-									className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
+									className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors font-medium"
 								>
 									<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

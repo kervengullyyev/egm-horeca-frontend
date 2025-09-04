@@ -252,10 +252,10 @@ export default function ContactPage() {
                 disabled={isSubmitting || submitStatus === 'success'}
                 className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
                   submitStatus === 'success'
-                    ? 'bg-green-600 text-white cursor-default'
+                    ? 'bg-green-600 text-primary-foreground cursor-default'
                     : isSubmitting
-                    ? 'bg-gray-400 text-white cursor-not-allowed'
-                    : 'bg-black text-white hover:bg-gray-800'
+                    ? 'bg-gray-400 text-primary-foreground cursor-not-allowed'
+                    : 'bg-primary text-primary-foreground hover:bg-primary/90'
                 }`}
               >
                 {submitStatus === 'success' 

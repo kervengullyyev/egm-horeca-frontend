@@ -49,7 +49,7 @@ export default function AboutUsPage() {
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Link 
                   href="/products" 
-                  className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   {t('exploreProducts')}
                 </Link>
@@ -79,8 +79,8 @@ export default function AboutUsPage() {
               <div className="aspect-square bg-gradient-to-br from-blue-50 to-gray-100 rounded-2xl overflow-hidden">
                 <div className="w-full h-full bg-gradient-to-br from-blue-100 to-gray-200 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <svg className="w-8 h-8 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2z" />
                       </svg>
                     </div>
@@ -105,8 +105,8 @@ export default function AboutUsPage() {
               <div className="aspect-video bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl overflow-hidden">
                 <div className="w-full h-full bg-gradient-to-br from-gray-100 to-blue-100 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-12 h-12 bg-blue-600 rounded-lg mx-auto mb-3 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-12 h-12 bg-primary rounded-lg mx-auto mb-3 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
                     </div>
@@ -133,7 +133,7 @@ export default function AboutUsPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link 
                   href="/products" 
-                  className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   {t('shopNow')}
                 </Link>
@@ -209,7 +209,7 @@ export default function AboutUsPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link 
                   href="/products" 
-                  className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
                 >
                   Shop Now
                 </Link>
@@ -225,8 +225,8 @@ export default function AboutUsPage() {
               <div className="aspect-square bg-gradient-to-br from-blue-50 to-gray-100 rounded-2xl overflow-hidden">
                 <div className="w-full h-full bg-gradient-to-br from-blue-100 to-gray-200 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-16 h-16 bg-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <svg className="w-8 h-8 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
@@ -257,7 +257,7 @@ export default function AboutUsPage() {
                     step: t('step01'),
                     title: t('stepExpertConsultationTitle'),
                     description: t('stepExpertConsultationDesc'),
-                    bgColor: "bg-blue-600 text-white"
+                    bgColor: "bg-primary text-primary-foreground"
                   },
                   {
                     step: t('step02'),
@@ -269,7 +269,7 @@ export default function AboutUsPage() {
                     step: t('step03'),
                     title: t('stepQualityAssuranceTitle'),
                     description: t('stepQualityAssuranceDesc'),
-                    bgColor: "bg-blue-600 text-white"
+                    bgColor: "bg-primary text-primary-foreground"
                   },
                   {
                     step: t('step04'),
@@ -281,7 +281,7 @@ export default function AboutUsPage() {
                     step: t('step05'),
                     title: t('stepOngoingSupportTitle'),
                     description: t('stepOngoingSupportDesc'),
-                    bgColor: "bg-blue-600 text-white"
+                    bgColor: "bg-primary text-primary-foreground"
                   }
                 ].map((item, index) => (
                   <CarouselItem key={index} className="basis-full md:basis-1/2 lg:basis-1/3">
@@ -354,7 +354,7 @@ export default function AboutUsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/products" 
-                className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center justify-center px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-colors"
               >
                 {t('exploreProducts')}
               </Link>

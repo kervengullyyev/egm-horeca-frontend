@@ -44,7 +44,7 @@ export default function CheckoutCancelPage() {
 					<div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
 						<Link
 							href="/cart"
-							className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+							className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-primary-foreground bg-primary hover:bg-primary/90 transition-colors"
 						>
 							Return to Cart
 						</Link>
