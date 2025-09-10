@@ -3,11 +3,9 @@
 
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function TermsOfServicePage() {
   const { t } = useTranslation();
-  const { currentLanguage } = useLanguage();
   return (
     <main className="min-h-screen font-sans bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12">

@@ -16,8 +16,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [currentLanguage, setCurrentLanguage] = useState<Language>(defaultLanguage);
 
   useEffect(() => {
-    // Load language from localStorage on mount
-    const savedLanguage = localStorage.getItem('language') as Language;
+      // Load language from localStorage on mount
+  const savedLanguage = typeof window !== 'undefined' ? (localStorage.getItem('language') as Language) : 'en';
     if (savedLanguage && languages.some(lang => lang.code === savedLanguage)) {
       setCurrentLanguage(savedLanguage);
       i18n.changeLanguage(savedLanguage);
@@ -26,7 +26,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (lang: Language) => {
     setCurrentLanguage(lang);
-    localStorage.setItem('language', lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', lang);
+    }
     i18n.changeLanguage(lang);
   };
 

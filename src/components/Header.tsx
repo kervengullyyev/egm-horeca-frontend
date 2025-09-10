@@ -30,12 +30,13 @@ export default function Header() {
 		};
 
 		const updateFavoritesCount = () => {
-			// Try to get favorites from the library first, then fallback to localStorage
-			try {
-				const favorites = getFavorites();
-				setFavoritesCount(favorites.length);
-			} catch (error) {
-				// Fallback to reading directly from localStorage
+					// Try to get favorites from the library first, then fallback to localStorage
+		try {
+			const favorites = getFavorites();
+			setFavoritesCount(favorites.length);
+		} catch (error) {
+			// Fallback to reading directly from localStorage
+			if (typeof window !== 'undefined') {
 				const savedFavorites = localStorage.getItem('favorites');
 				if (savedFavorites) {
 					try {
@@ -48,7 +49,10 @@ export default function Header() {
 				} else {
 					setFavoritesCount(0);
 				}
+			} else {
+				setFavoritesCount(0);
 			}
+		}
 		};
 
 		updateCartCount();

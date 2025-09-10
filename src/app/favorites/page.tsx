@@ -16,18 +16,21 @@ export default function FavoritesPage() {
 
 	// Get favorites from localStorage
 	const getFavoritesFromStorage = (): FavoriteItem[] => {
-		try {
-			const savedFavorites = localStorage.getItem('favorites');
-			if (savedFavorites) {
-				const favorites = JSON.parse(savedFavorites);
-				console.log('Favorites from localStorage:', favorites);
-				return favorites;
+		if (typeof window !== 'undefined') {
+			try {
+				const savedFavorites = localStorage.getItem('favorites');
+				if (savedFavorites) {
+					const favorites = JSON.parse(savedFavorites);
+					console.log('Favorites from localStorage:', favorites);
+					return favorites;
+				}
+				return [];
+			} catch (error) {
+				console.error('Error reading favorites from localStorage:', error);
+				return [];
 			}
-			return [];
-		} catch (error) {
-			console.error('Error reading favorites from localStorage:', error);
-			return [];
 		}
+		return [];
 	};
 
 	useEffect(() => {
@@ -50,7 +53,9 @@ export default function FavoritesPage() {
 		// Remove from localStorage
 		const currentFavorites = getFavoritesFromStorage();
 		const updatedFavorites = currentFavorites.filter(item => item.id !== id);
-		localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		if (typeof window !== 'undefined') {
+			localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+		}
 		
 		// Update local state
 		setFavorites(updatedFavorites);

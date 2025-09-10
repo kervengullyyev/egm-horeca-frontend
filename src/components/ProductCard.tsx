@@ -52,18 +52,20 @@ export default function ProductCard({
 		
 		if (!productSlug) return;
 		
-		const savedFavorites = localStorage.getItem('favorites');
-		if (savedFavorites) {
-			try {
-				const favoritesData = JSON.parse(savedFavorites) as Array<{id: string}>;
-				const isFavorited = favoritesData.some(item => item.id === productSlug);
-				console.log(`ProductCard ${productSlug}: isFavorited = ${isFavorited}`);
-				setIsFavoritedState(isFavorited);
-			} catch (error) {
-				console.error('Error checking favorite status:', error);
+		if (typeof window !== 'undefined') {
+			const savedFavorites = localStorage.getItem('favorites');
+			if (savedFavorites) {
+				try {
+					const favoritesData = JSON.parse(savedFavorites) as Array<{id: string}>;
+					const isFavorited = favoritesData.some(item => item.id === productSlug);
+					console.log(`ProductCard ${productSlug}: isFavorited = ${isFavorited}`);
+					setIsFavoritedState(isFavorited);
+				} catch (error) {
+					console.error('Error checking favorite status:', error);
+				}
+			} else {
+				console.log(`ProductCard ${productSlug}: No favorites in localStorage`);
 			}
-		} else {
-			console.log(`ProductCard ${productSlug}: No favorites in localStorage`);
 		}
 	};
 	

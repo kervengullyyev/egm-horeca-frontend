@@ -10,7 +10,7 @@ export interface FavoriteItem {
 function readFromStorage(): FavoriteItem[] {
 	if (typeof window === "undefined") return [];
 	try {
-		const data = localStorage.getItem(STORAGE_KEY);
+		const data = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
 		return data ? JSON.parse(data) : [];
 	} catch {
 		return [];
@@ -20,7 +20,9 @@ function readFromStorage(): FavoriteItem[] {
 function writeToStorage(items: FavoriteItem[]) {
 	if (typeof window === "undefined") return;
 	try {
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+		if (typeof window !== 'undefined') {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+		}
 	} catch (error) {
 		console.error('Error writing to localStorage:', error);
 	}

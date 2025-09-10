@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Trash2, Minus, Plus, Info, ImageIcon } from "lucide-react";
+import { Heart, Trash2, Minus, Plus, ImageIcon } from "lucide-react";
 import { getCart, updateQty, removeFromCart, CartCookieItem } from "@/lib/cart";
 
 type DisplayCartItem = CartCookieItem & {

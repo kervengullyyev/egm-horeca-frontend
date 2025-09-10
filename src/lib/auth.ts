@@ -59,8 +59,8 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				localStorage.setItem('authToken', result.token);
-				localStorage.setItem('user', JSON.stringify(result.user));
+				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
+				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
 			}
 
 			return result;
@@ -88,8 +88,8 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				localStorage.setItem('authToken', result.token);
-				localStorage.setItem('user', JSON.stringify(result.user));
+				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
+				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
 			}
 
 			return result;
@@ -117,8 +117,8 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				localStorage.setItem('authToken', result.token);
-				localStorage.setItem('user', JSON.stringify(result.user));
+				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
+				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
 			}
 
 			return result;
@@ -130,7 +130,7 @@ class AuthService {
 
 	async signOut(): Promise<void> {
 		try {
-			const token = localStorage.getItem('authToken');
+			const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
 			if (token) {
 				await fetch(`${this.baseUrl}/api/v1/auth/signout`, {
 					method: 'POST',
@@ -142,22 +142,25 @@ class AuthService {
 		} catch (error) {
 			console.error('Sign out error:', error);
 		} finally {
-			localStorage.removeItem('authToken');
-			localStorage.removeItem('user');
+			typeof window !== 'undefined' && localStorage.removeItem('authToken');
+			typeof window !== 'undefined' && localStorage.removeItem('user');
 		}
 	}
 
 	isAuthenticated(): boolean {
-		return !!localStorage.getItem('authToken');
+		return typeof window !== 'undefined' ? !!localStorage.getItem('authToken') : false;
 	}
 
 	getToken(): string | null {
-		return localStorage.getItem('authToken');
+		return typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
 	}
 
 	getUser(): { firstName?: string; lastName?: string; email?: string; phone?: string } | null {
-		const user = localStorage.getItem('user');
-		return user ? JSON.parse(user) : null;
+		if (typeof window !== 'undefined') {
+			const user = localStorage.getItem('user');
+			return user ? JSON.parse(user) : null;
+		}
+		return null;
 	}
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { ChevronDown, Info } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { getCart, CartCookieItem } from "@/lib/cart";
 
 type EntityType = "individual" | "company";
