@@ -46,6 +46,44 @@ export interface PasswordResetResponse {
 	message: string;
 }
 
+export interface AddressUpdateData {
+	entity_type: string;
+	tax_id?: string;
+	company_name?: string;
+	trade_register_no?: string;
+	bank_name?: string;
+	iban?: string;
+	county: string;
+	city: string;
+	address: string;
+}
+
+export interface AddressUpdateResponse {
+	success: boolean;
+	message: string;
+}
+
+export interface UserProfile {
+	id: number;
+	email: string;
+	username: string;
+	full_name: string;
+	phone?: string;
+	role: string;
+	is_active: boolean;
+	created_at: string;
+	updated_at?: string;
+	entity_type?: string;
+	tax_id?: string;
+	company_name?: string;
+	trade_register_no?: string;
+	bank_name?: string;
+	iban?: string;
+	county?: string;
+	city?: string;
+	address?: string;
+}
+
 class AuthService {
 	private baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 	
@@ -289,6 +327,84 @@ class AuthService {
 		} catch (error: unknown) {
 			console.error('Reset password error:', error);
 			const errorMessage = error instanceof Error ? error.message : 'Failed to reset password. Please try again.';
+			throw new Error(errorMessage);
+		}
+	}
+
+	async updateAddress(data: AddressUpdateData): Promise<AddressUpdateResponse> {
+		try {
+			const token = this.getToken();
+			if (!token) {
+				throw new Error('No authentication token found');
+			}
+
+			const response = await fetch(`${this.baseUrl}/api/v1/auth/update-address`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`,
+				},
+				body: JSON.stringify(data),
+			});
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				// Handle validation errors (422)
+				if (response.status === 422 && result.detail) {
+					if (Array.isArray(result.detail)) {
+						const validationError = result.detail[0];
+						if (validationError.msg) {
+							throw new Error(validationError.msg);
+						}
+					}
+					// Handle non-array detail
+					if (typeof result.detail === 'string') {
+						throw new Error(result.detail);
+					}
+				}
+				// Handle other error types
+				if (typeof result.detail === 'string') {
+					throw new Error(result.detail);
+				}
+				throw new Error('Failed to update address');
+			}
+
+			return result;
+		} catch (error: unknown) {
+			console.error('Update address error:', error);
+			const errorMessage = error instanceof Error ? error.message : 'Failed to update address. Please try again.';
+			throw new Error(errorMessage);
+		}
+	}
+
+	async getUserProfile(): Promise<UserProfile> {
+		try {
+			const token = this.getToken();
+			if (!token) {
+				throw new Error('No authentication token found');
+			}
+
+			const response = await fetch(`${this.baseUrl}/api/v1/auth/profile`, {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+				},
+			});
+
+			const result = await response.json();
+
+			if (!response.ok) {
+				if (typeof result.detail === 'string') {
+					throw new Error(result.detail);
+				}
+				throw new Error('Failed to get user profile');
+			}
+
+			return result;
+		} catch (error: unknown) {
+			console.error('Get user profile error:', error);
+			const errorMessage = error instanceof Error ? error.message : 'Failed to get user profile. Please try again.';
 			throw new Error(errorMessage);
 		}
 	}

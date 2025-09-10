@@ -2,13 +2,16 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
 import { getCart, CartCookieItem } from "@/lib/cart";
+import { authService } from "@/lib/auth";
 
 type EntityType = "individual" | "company";
 
 export default function CheckoutPage() {
 	const [entityType, setEntityType] = useState<EntityType>("individual");
 	const [cartItems, setCartItems] = useState<CartCookieItem[]>([]);
+	const [loading, setLoading] = useState(true);
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -24,10 +27,58 @@ export default function CheckoutPage() {
 		address: ""
 	});
 
-	// Load cart items on component mount
+	// Load cart items and user data on component mount
 	useEffect(() => {
-		const items = getCart();
-		setCartItems(items);
+		const loadData = async () => {
+			// Load cart items
+			const items = getCart();
+			setCartItems(items);
+			
+			// Check if user is logged in and load their data
+			if (authService.isAuthenticated()) {
+				try {
+					const userProfile = await authService.getUserProfile();
+					
+					// Split full_name into firstName and lastName
+					const nameParts = userProfile.full_name.split(' ');
+					const firstName = nameParts[0] || '';
+					const lastName = nameParts.slice(1).join(' ') || '';
+					
+					// Update form data with user's saved information
+					setFormData(prev => ({
+						...prev,
+						firstName: firstName,
+						lastName: lastName,
+						phone: userProfile.phone || '',
+						email: userProfile.email || '',
+						taxId: userProfile.tax_id || '',
+						companyName: userProfile.company_name || '',
+						tradeRegisterNo: userProfile.trade_register_no || '',
+						bank: userProfile.bank_name || '',
+						iban: userProfile.iban || '',
+						county: userProfile.county || '',
+						city: userProfile.city || '',
+						address: userProfile.address || ''
+					}));
+					
+					// Set entity type
+					setEntityType(userProfile.entity_type as EntityType || "individual");
+					
+					// Show success toast
+					toast.success("Address loaded", {
+						description: "Your saved address information has been loaded automatically.",
+						duration: 3000,
+					});
+				} catch (error) {
+					console.error("Error loading user profile:", error);
+					// Don't show error to user, just log it
+				}
+			}
+			
+			setLoading(false);
+		};
+		
+		loadData();
 	}, []);
 
 	// Calculate totals
@@ -47,26 +98,34 @@ export default function CheckoutPage() {
 		
 		// Check if cart has items
 		if (cartItems.length === 0) {
-			alert("Your cart is empty. Please add items before checkout.");
+			toast.error("Your cart is empty", {
+				description: "Please add items before proceeding to checkout.",
+			});
 			return;
 		}
 		
 		// Validate required contact fields
 		if (!formData.firstName || !formData.lastName || !formData.phone || !formData.email) {
-			alert("Please fill in all required contact fields (First Name, Last Name, Phone, Email)");
+			toast.error("Missing contact information", {
+				description: "Please fill in all required contact fields (First Name, Last Name, Phone, Email)",
+			});
 			return;
 		}
 		
 		// Validate required address fields
 		if (!formData.county || !formData.city || !formData.address) {
-			alert("Please fill in all required address fields (County, City, Address)");
+			toast.error("Missing address information", {
+				description: "Please fill in all required address fields (County, City, Address)",
+			});
 			return;
 		}
 		
 		// Validate required fields based on entity type
 		if (entityType === "company") {
 			if (!formData.taxId || !formData.companyName) {
-				alert("Please fill in all required company fields (Tax ID, Company Name)");
+				toast.error("Missing company information", {
+					description: "Please fill in all required company fields (Tax ID, Company Name)",
+				});
 				return;
 			}
 		}
@@ -224,14 +283,33 @@ export default function CheckoutPage() {
 				errorMessage = error;
 			}
 			
-			alert(`Checkout Error: ${errorMessage}`);
+			toast.error("Checkout failed", {
+				description: errorMessage,
+				duration: 5000,
+			});
 		}
 	};
+
+	if (loading) {
+		return (
+			<main className="min-h-screen font-sans">
+				<div className="mx-auto max-w-7xl px-4 py-8">
+					<div className="flex items-center justify-center min-h-[400px]">
+						<div className="text-center">
+							<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+							<p className="text-gray-600">Loading checkout information...</p>
+						</div>
+					</div>
+				</div>
+			</main>
+		);
+	}
 
 	return (
 		<main className="min-h-screen font-sans">
 			<div className="mx-auto max-w-7xl px-4 py-8">
 				<h1 className="mb-8 text-3xl font-semibold tracking-tight">Checkout</h1>
+				
 
 				<div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
 					{/* Left: Checkout Form */}
@@ -422,16 +500,48 @@ export default function CheckoutPage() {
 										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary appearance-none"
 									>
 										<option value="">Choose a county...</option>
-										<option value="bucharest">Bucharest</option>
-										<option value="cluj">Cluj</option>
-										<option value="timis">Timis</option>
-										<option value="constanta">Constanta</option>
-										<option value="brasov">Brasov</option>
-										<option value="ilfov">Ilfov</option>
-										<option value="dolj">Dolj</option>
-										<option value="galati">Galati</option>
-										<option value="arad">Arad</option>
-										<option value="bihor">Bihor</option>
+										<option value="Alba">Alba</option>
+										<option value="Arad">Arad</option>
+										<option value="Argeș">Argeș</option>
+										<option value="Bacău">Bacău</option>
+										<option value="Bihor">Bihor</option>
+										<option value="Bistrița-Năsăud">Bistrița-Năsăud</option>
+										<option value="Botoșani">Botoșani</option>
+										<option value="Brașov">Brașov</option>
+										<option value="Brăila">Brăila</option>
+										<option value="Buzău">Buzău</option>
+										<option value="Călărași">Călărași</option>
+										<option value="Caraș-Severin">Caraș-Severin</option>
+										<option value="Cluj">Cluj</option>
+										<option value="Constanța">Constanța</option>
+										<option value="Covasna">Covasna</option>
+										<option value="Dâmbovița">Dâmbovița</option>
+										<option value="Dolj">Dolj</option>
+										<option value="Galați">Galați</option>
+										<option value="Giurgiu">Giurgiu</option>
+										<option value="Gorj">Gorj</option>
+										<option value="Harghita">Harghita</option>
+										<option value="Hunedoara">Hunedoara</option>
+										<option value="Ialomița">Ialomița</option>
+										<option value="Iași">Iași</option>
+										<option value="Ilfov">Ilfov</option>
+										<option value="Maramureș">Maramureș</option>
+										<option value="Mehedinți">Mehedinți</option>
+										<option value="Mureș">Mureș</option>
+										<option value="Neamț">Neamț</option>
+										<option value="Olt">Olt</option>
+										<option value="Prahova">Prahova</option>
+										<option value="Sălaj">Sălaj</option>
+										<option value="Satu Mare">Satu Mare</option>
+										<option value="Sibiu">Sibiu</option>
+										<option value="Suceava">Suceava</option>
+										<option value="Teleorman">Teleorman</option>
+										<option value="Timiș">Timiș</option>
+										<option value="Tulcea">Tulcea</option>
+										<option value="Vâlcea">Vâlcea</option>
+										<option value="Vaslui">Vaslui</option>
+										<option value="Vrancea">Vrancea</option>
+										<option value="Bucharest">Bucharest</option>
 									</select>
 									<ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
 								</div>
@@ -449,16 +559,62 @@ export default function CheckoutPage() {
 										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary appearance-none"
 									>
 										<option value="">Choose a city...</option>
-										<option value="bucharest">Bucharest</option>
-										<option value="cluj-napoca">Cluj-Napoca</option>
-										<option value="timisoara">Timisoara</option>
-										<option value="constanta">Constanta</option>
-										<option value="brasov">Brasov</option>
-										<option value="craiova">Craiova</option>
-										<option value="galati">Galati</option>
-										<option value="arad">Arad</option>
-										<option value="oradea">Oradea</option>
-										<option value="sibiu">Sibiu</option>
+										<option value="Bucharest">Bucharest</option>
+										<option value="Cluj-Napoca">Cluj-Napoca</option>
+										<option value="Timișoara">Timișoara</option>
+										<option value="Constanța">Constanța</option>
+										<option value="Brașov">Brașov</option>
+										<option value="Craiova">Craiova</option>
+										<option value="Galați">Galați</option>
+										<option value="Ploiești">Ploiești</option>
+										<option value="Oradea">Oradea</option>
+										<option value="Brăila">Brăila</option>
+										<option value="Arad">Arad</option>
+										<option value="Pitești">Pitești</option>
+										<option value="Sibiu">Sibiu</option>
+										<option value="Bacău">Bacău</option>
+										<option value="Târgu Mureș">Târgu Mureș</option>
+										<option value="Baia Mare">Baia Mare</option>
+										<option value="Buzău">Buzău</option>
+										<option value="Satu Mare">Satu Mare</option>
+										<option value="Piatra Neamț">Piatra Neamț</option>
+										<option value="Râmnicu Vâlcea">Râmnicu Vâlcea</option>
+										<option value="Drobeta-Turnu Severin">Drobeta-Turnu Severin</option>
+										<option value="Suceava">Suceava</option>
+										<option value="Botoșani">Botoșani</option>
+										<option value="Târgoviște">Târgoviște</option>
+										<option value="Focșani">Focșani</option>
+										<option value="Bistrița">Bistrița</option>
+										<option value="Tulcea">Tulcea</option>
+										<option value="Reșița">Reșița</option>
+										<option value="Slatina">Slatina</option>
+										<option value="Călărași">Călărași</option>
+										<option value="Alba Iulia">Alba Iulia</option>
+										<option value="Giurgiu">Giurgiu</option>
+										<option value="Deva">Deva</option>
+										<option value="Hunedoara">Hunedoara</option>
+										<option value="Zalău">Zalău</option>
+										<option value="Sfântu Gheorghe">Sfântu Gheorghe</option>
+										<option value="Slobozia">Slobozia</option>
+										<option value="Alexandria">Alexandria</option>
+										<option value="Târgu Jiu">Târgu Jiu</option>
+										<option value="Vaslui">Vaslui</option>
+										<option value="Miercurea Ciuc">Miercurea Ciuc</option>
+										<option value="Târgu Neamț">Târgu Neamț</option>
+										<option value="Caracal">Caracal</option>
+										<option value="Sighetu Marmației">Sighetu Marmației</option>
+										<option value="Râmnicu Sărat">Râmnicu Sărat</option>
+										<option value="Curtea de Argeș">Curtea de Argeș</option>
+										<option value="Sebeș">Sebeș</option>
+										<option value="Huși">Huși</option>
+										<option value="Făgăraș">Făgăraș</option>
+										<option value="Bârlad">Bârlad</option>
+										<option value="Vulcan">Vulcan</option>
+										<option value="Rădăuți">Rădăuți</option>
+										<option value="Câmpina">Câmpina</option>
+										<option value="Câmpulung">Câmpulung</option>
+										<option value="Băilești">Băilești</option>
+										<option value="Câmpulung Moldovenesc">Câmpulung Moldovenesc</option>
 									</select>
 									<ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
 								</div>
