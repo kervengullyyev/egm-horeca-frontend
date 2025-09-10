@@ -30,14 +30,19 @@ export default function ProductPageClient({ product, variants, relatedProducts }
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedSize] = useState<string | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [favorites, setFavorites] = useState<Set<string> | null>(null);
   const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
   const [currentPrice, setCurrentPrice] = useState(product.price || 0);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [origin, setOrigin] = useState<string>('');
 
-  // Initialize favorites from localStorage
+  // Initialize favorites from localStorage and origin
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // Set origin for WhatsApp link
+      setOrigin(window.location.origin);
+      
+      // Load favorites
       const savedFavorites = localStorage.getItem('favorites');
       if (savedFavorites) {
         try {
@@ -93,25 +98,14 @@ export default function ProductPageClient({ product, variants, relatedProducts }
 
   // Helper function to check if current product is in favorites
   const isCurrentProductFavorited = () => {
-    if (typeof window !== 'undefined') {
-      const savedFavorites = localStorage.getItem('favorites');
-      if (savedFavorites) {
-        try {
-          const favoritesData = JSON.parse(savedFavorites) as Array<{id: string}>;
-          return favoritesData.some(item => item.id === product.slug);
-        } catch (error) {
-          console.error('Error checking favorite status:', error);
-          return false;
-        }
-      }
-    }
-    return false;
+    return favorites?.has(product.slug) ?? false;
   };
 
   const handleToggleFavorite = (productSlug: string, productData: { id: string; name: string; price: number; image?: string }) => {
     toggleFavorite(productData);
     
     setFavorites(prev => {
+      if (!prev) return new Set([productSlug]);
       const newFavorites = new Set(prev);
       if (newFavorites.has(productSlug)) {
         newFavorites.delete(productSlug);
@@ -210,8 +204,8 @@ export default function ProductPageClient({ product, variants, relatedProducts }
                         onMouseEnter={() => setImageIndex(idx)}
                         className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
                           imageIndex === idx 
-                            ? "border-black border-2 shadow-lg ring-2 ring-black/20" 
-                            : "border-black/10 hover:border-black/30"
+                            ? "border-gray-600 border-1" 
+                            : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
                         <Image 
@@ -235,7 +229,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
                         onMouseEnter={() => setImageIndex(idx)}
                         className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
                           imageIndex === idx 
-                            ? "border-black border-2 shadow-lg ring-2 ring-black/20" 
+                            ? "border-gray-600 border-2" 
                             : "border-black/10 hover:border-black/30"
                         }`}
                       >
@@ -366,7 +360,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
                         onMouseEnter={() => setImageIndex(idx)}
                         className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
                           imageIndex === idx 
-                            ? "border-black border-2 shadow-lg ring-2 ring-black/20" 
+                            ? "border-gray-600 border-1" 
                             : "border-black/10 hover:border-black/30"
                         }`}
                       >
@@ -391,7 +385,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
                         onMouseEnter={() => setImageIndex(idx)}
                         className={`block h-16 w-16 overflow-hidden rounded-md border transition-all duration-200 relative ${
                           imageIndex === idx 
-                            ? "border-black border-2 shadow-lg ring-2 ring-black/20" 
+                            ? "border-gray-600 border-1" 
                             : "border-black/10 hover:border-black/30"
                         }`}
                       >
@@ -469,7 +463,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
               <p className="text-sm text-gray-600 mb-3">{t('forMoreDetails')}</p>
               <div className="flex gap-3">
                 <a
-                  href={`https://wa.me/40741302753?text=Hello I am interested in ${product.name_en}. Product URL: ${typeof window !== 'undefined' ? window.location.origin : ''}/product/${product.slug}`}
+                  href={`https://wa.me/40741302753?text=Hello I am interested in ${product.name_en}. Product URL: ${origin}/product/${product.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors font-medium"
@@ -512,7 +506,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
                     price: relatedProduct.price || 0,
                     image: relatedProduct.images && relatedProduct.images.length > 0 ? relatedProduct.images[0] : undefined
                   })}
-                  isFavorited={favorites.has(relatedProduct.slug)}
+                  isFavorited={favorites?.has(relatedProduct.slug) ?? false}
                 />
               ))}
             </div>
