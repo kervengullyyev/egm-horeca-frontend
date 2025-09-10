@@ -2,6 +2,7 @@
 
 import { Monitor, Euro, Truck, Settings, Wrench } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
 
 export default function ServicesSection() {
   const { t } = useTranslation();
@@ -44,8 +45,10 @@ export default function ServicesSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {services.map((service, index) => {
             const IconComponent = service.icon;
-            return (
-              <div key={index} className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+            const isMaintenanceService = service.title === t('maintenanceService');
+            
+            const ServiceCard = () => (
+              <div className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                 <div className="mb-6 p-4 bg-white rounded-full shadow-sm">
                   <IconComponent className="h-10 w-10 text-brand-primary" />
                 </div>
@@ -55,6 +58,20 @@ export default function ServicesSection() {
                 <p className="text-xs text-gray-600 leading-relaxed">
                   {service.description}
                 </p>
+              </div>
+            );
+
+            if (isMaintenanceService) {
+              return (
+                <Link key={index} href="/services" className="block">
+                  <ServiceCard />
+                </Link>
+              );
+            }
+
+            return (
+              <div key={index}>
+                <ServiceCard />
               </div>
             );
           })}

@@ -101,6 +101,11 @@ export default function Footer() {
 								</Link>
 							</li>
 							<li>
+								<Link href="/services" className="hover:text-foreground transition-colors">
+									{t('Services') || 'Services'}
+								</Link>
+							</li>
+							<li>
 								<Link href="/search" className="hover:text-foreground transition-colors">
 									{t('search')}
 								</Link>

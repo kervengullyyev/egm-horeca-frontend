@@ -24,6 +24,11 @@ export const translations = {
     location: "Bucharest, Romania",
     phone: "+40 123 456 789",
     
+    // Contact Labels
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    locationLabel: "Location",
+    
     // Navigation
     home: "Home",
     categories: "Categories",
@@ -64,14 +69,28 @@ export const translations = {
     horecaEquipmentTitle: "Horeca Equipment for your business",
     designConsultancy: "3D DESIGN AND CONSULTANCY",
     designConsultancyDesc: "Personalized solutions for your business",
+    designConsultancyDetails: "Our expert team provides comprehensive 3D design solutions tailored to your restaurant or hospitality business needs. We help optimize your space layout and equipment placement for maximum efficiency.",
     financingPayment: "FINANCING AND PAYMENT",
     financingPaymentDesc: "Flexible payment options",
+    financingPaymentDetails: "Flexible financing options to help you acquire the equipment you need without straining your budget. We offer various payment plans and financing solutions.",
     freeDeliveryService: "FREE DELIVERY IN BUCHAREST",
     freeDeliveryServiceDesc: "Fast and secure delivery",
+    freeDeliveryServiceDetails: "Free delivery service throughout Bucharest for orders over RON 200. Fast, secure, and professional delivery to your location.",
     installationCommissioning: "INSTALLATION AND COMMISSIONING",
     installationCommissioningDesc: "Professional installation",
+    installationCommissioningDetails: "Professional installation and commissioning services to ensure your equipment is properly set up and functioning optimally from day one.",
     maintenanceService: "MAINTENANCE, REVISIONS AND SERVICE",
     maintenanceServiceDesc: "Complete technical support",
+    maintenanceServiceDetails: "Complete technical support including regular maintenance, repairs, and service to keep your equipment running smoothly and extend its lifespan.",
+    
+    // Services Page
+    servicesPageDescription: "Comprehensive solutions for your hospitality business. From design to maintenance, we provide everything you need to succeed.",
+    servicesIntroTitle: "Professional Services for Your Business",
+    servicesIntroDesc: "Our experienced team provides comprehensive solutions to help your hospitality business thrive. From initial design to ongoing maintenance, we're your trusted partner for success.",
+    contactUsForServices: "Ready to Get Started?",
+    contactServicesDesc: "Contact our team today to discuss your hospitality equipment needs and discover how we can help your business succeed.",
+    callNow: "Call Now",
+    sendEmail: "Send Email",
     
     // Product
     description: "Description",
@@ -219,6 +238,11 @@ export const translations = {
     location: "București, România",
     phone: "+40 123 456 789",
     
+    // Contact Labels
+    phoneLabel: "Telefon",
+    emailLabel: "Email",
+    locationLabel: "Locație",
+    
     // Navigation
     home: "Acasă",
     categories: "Categorii",
@@ -259,14 +283,28 @@ export const translations = {
     horecaEquipmentTitle: "Echipamente Horeca pentru afacerea ta",
     designConsultancy: "PROIECTARE 3D SI CONSULTANTA",
     designConsultancyDesc: "Soluții personalizate pentru afacerea ta",
+    designConsultancyDetails: "Echipa noastră de experți oferă soluții complete de proiectare 3D adaptate nevoilor restaurantului sau afacerii tale de ospitalitate. Te ajutăm să optimizezi amenajarea spațiului și plasarea echipamentelor pentru eficiență maximă.",
     financingPayment: "FINANTARE SI PLATA",
     financingPaymentDesc: "Opțiuni flexibile de plată",
+    financingPaymentDetails: "Opțiuni de finanțare flexibile pentru a te ajuta să achiziționezi echipamentele de care ai nevoie fără să îți strângi bugetul. Oferim diverse planuri de plată și soluții de finanțare.",
     freeDeliveryService: "LIVRARE GRATUITA IN BUCURESTI",
     freeDeliveryServiceDesc: "Livrare rapidă și sigură",
+    freeDeliveryServiceDetails: "Serviciu de livrare gratuită în toată Bucureștiul pentru comenzi peste 200 RON. Livrare rapidă, sigură și profesională la locația ta.",
     installationCommissioning: "MONTAJ SI PUNERE IN FUNCTIUNE",
     installationCommissioningDesc: "Instalare profesională",
+    installationCommissioningDetails: "Servicii profesionale de instalare și punere în funcțiune pentru a te asigura că echipamentul tău este configurat corect și funcționează optim din prima zi.",
     maintenanceService: "MENTENANTA, REVIZII SI SERVICE",
     maintenanceServiceDesc: "Suport tehnic complet",
+    maintenanceServiceDetails: "Suport tehnic complet incluzând întreținerea regulată, reparații și service pentru a menține echipamentul tău în funcțiune și pentru a-ți prelungi durata de viață.",
+    
+    // Services Page
+    servicesPageDescription: "Soluții complete pentru afacerea ta de ospitalitate. De la proiectare la întreținere, oferim tot ce ai nevoie pentru succes.",
+    servicesIntroTitle: "Servicii Profesionale pentru Afacerea Ta",
+    servicesIntroDesc: "Echipa noastră cu experiență oferă soluții complete pentru a ajuta afacerea ta de ospitalitate să prospere. De la proiectarea inițială la întreținerea continuă, suntem partenerul tău de încredere pentru succes.",
+    contactUsForServices: "Gata să începi?",
+    contactServicesDesc: "Contactează echipa noastră astăzi pentru a discuta nevoile tale de echipamente pentru ospitalitate și pentru a descoperi cum te putem ajuta să reușești.",
+    callNow: "Sună Acum",
+    sendEmail: "Trimite Email",
     
     // Product
     description: "Descriere",

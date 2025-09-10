@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Search, ShoppingBag, User, Heart, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, User, Heart, Menu, X, Settings } from "lucide-react";
 import { getCart } from "@/lib/cart";
 import { getFavorites } from "@/lib/favorites";
 import { useTranslation } from "react-i18next";
@@ -226,6 +226,16 @@ export default function Header() {
 								</div>
 								
 								
+								{/* Services */}
+								<Link 
+									href="/services" 
+									className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 rounded-lg transition-colors"
+									onClick={() => setShowMobileMenu(false)}
+								>
+									<Settings className="w-5 h-5" />
+									Services
+								</Link>
+
 								{/* User account */}
 								<Link 
 									href="/account" 
