@@ -60,27 +60,28 @@ export default function AccountPage() {
 		}
 	};
 
-	const handleGoogleSSO = async () => {
-		setLoading(true);
-		setError("");
+	// Google SSO handler (currently unused but kept for future implementation)
+	// const handleGoogleSSO = async () => {
+	// 	setLoading(true);
+	// 	setError("");
 
-		try {
-			// Initialize Google OAuth if not already done
-			if (!googleAuthService.isAvailable()) {
-				await googleAuthService.initialize();
-			}
+	// 	try {
+	// 		// Initialize Google OAuth if not already done
+	// 		if (!googleAuthService.isAvailable()) {
+	// 			await googleAuthService.initialize();
+	// 		}
 
-			// Trigger Google OAuth login
-			await googleAuthService.login();
+	// 		// Trigger Google OAuth login
+	// 		await googleAuthService.login();
 			
-			// Note: The actual authentication will happen in the callback page
-			// This function just initiates the OAuth flow
-		} catch (err: unknown) {
-			const errorMessage = err instanceof Error ? err.message : "Google SSO failed. Please try again.";
-			setError(errorMessage);
-			setLoading(false);
-		}
-	};
+	// 		// Note: The actual authentication will happen in the callback page
+	// 		// This function just initiates the OAuth flow
+	// 	} catch (err: unknown) {
+	// 		const errorMessage = err instanceof Error ? err.message : "Google SSO failed. Please try again.";
+	// 		setError(errorMessage);
+	// 		setLoading(false);
+	// 	}
+	// };
 
 
 
@@ -124,7 +125,7 @@ export default function AccountPage() {
 											placeholder="First Name"
 											value={formData.firstName}
 											onChange={(e) => handleInputChange('firstName', e.target.value)}
-											className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-sm"
+											className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none transition-colors text-sm"
 										/>
 									</div>
 									<div>
@@ -133,7 +134,7 @@ export default function AccountPage() {
 											placeholder="Last Name"
 											value={formData.lastName}
 											onChange={(e) => handleInputChange('lastName', e.target.value)}
-											className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-sm"
+											className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none transition-colors text-sm"
 										/>
 									</div>
 								</div>
@@ -163,7 +164,7 @@ export default function AccountPage() {
 										placeholder="Password"
 										value={formData.password}
 										onChange={(e) => handleInputChange('password', e.target.value)}
-										className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-colors text-sm"
+										className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none transition-colors text-sm"
 									/>
 									<button
 										type="button"

@@ -4,6 +4,7 @@ import CategoryShowcase from "@/components/CategoryShowcase";
 import PromoBanner from "@/components/PromoBanner";
 import CollectionShowcase from "@/components/CollectionShowcase";
 import ConversationSection from "@/components/ConversationSection";
+import ServicesSection from "@/components/ServicesSection";
 import { getCachedFeaturedProducts, getCachedTopProducts } from "@/lib/server-api";
 
 export default async function HomePage() {
@@ -17,6 +18,9 @@ export default async function HomePage() {
 		<main className="min-h-screen font-sans">
 			<div className="mx-auto max-w-7xl px-4 py-6">
 				<HeroBanner />
+
+				{/* Services Section */}
+				<ServicesSection />
 
 				<section className="mt-10">
 					<h2 className="text-xl sm:text-2xl font-semibold tracking-tight">Featured Products</h2>

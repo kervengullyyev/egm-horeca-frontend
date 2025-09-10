@@ -22,7 +22,6 @@ type ProductCardProps = {
 
 export default function ProductCard({
 	title,
-	description,
 	shortDescription,
 	price,
 	imageUrl,
@@ -30,7 +29,6 @@ export default function ProductCard({
 	href,
 	productId,
 	onToggleFavorite,
-	isFavorited = false,
 }: ProductCardProps) {
 	const [isFavoritedState, setIsFavoritedState] = useState(false);
 	const { t } = useTranslation();

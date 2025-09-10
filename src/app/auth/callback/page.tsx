@@ -10,10 +10,6 @@ export default function AuthCallbackPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [error, setError] = useState<string>('');
 
-  useEffect(() => {
-    handleAuthCallback();
-  }, [router]);
-
   const handleAuthCallback = async () => {
     try {
       // Get stored Google user data
@@ -61,11 +57,15 @@ export default function AuthCallbackPage() {
     }
   };
 
+  useEffect(() => {
+    handleAuthCallback();
+  }, [handleAuthCallback]);
+
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto mb-4"></div>
           <p className="text-gray-600">Completing authentication...</p>
         </div>
       </div>

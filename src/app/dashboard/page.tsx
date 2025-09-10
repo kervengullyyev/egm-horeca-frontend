@@ -6,7 +6,7 @@ import { authService } from "@/lib/auth";
 
 export default function DashboardPage() {
 	const router = useRouter();
-	const [user, setUser] = useState<{ firstName?: string; lastName?: string; email?: string; phone?: string } | null>(null);
+	// const [user, setUser] = useState<{ firstName?: string; lastName?: string; email?: string; phone?: string } | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [activeSection, setActiveSection] = useState("personal-info");
 	const [formData, setFormData] = useState({
@@ -27,7 +27,6 @@ export default function DashboardPage() {
 		// Get user data
 		const userData = authService.getUser();
 		if (userData) {
-			setUser(userData);
 			setFormData({
 				firstName: userData.firstName || "",
 				lastName: userData.lastName || "",

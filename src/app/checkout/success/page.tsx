@@ -68,7 +68,7 @@ export default function CheckoutSuccessPage() {
 							<h2 className="text-lg font-semibold text-gray-900 mb-4">Order Details</h2>
 							{loading ? (
 								<div className="text-center py-4">
-									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-primary mx-auto"></div>
 									<p className="mt-2 text-sm text-gray-500">Loading order details...</p>
 								</div>
 							) : sessionDetails ? (
@@ -90,7 +90,7 @@ export default function CheckoutSuccessPage() {
 										<div className="flex justify-between">
 											<span>Amount:</span>
 											<span className="font-medium">
-												${sessionDetails.amount.toFixed(2)} {sessionDetails.currency}
+												{sessionDetails.amount.toFixed(2)} {sessionDetails.currency}
 											</span>
 										</div>
 									)}

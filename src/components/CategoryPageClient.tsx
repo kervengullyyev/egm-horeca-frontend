@@ -138,14 +138,14 @@ export default function CategoryPageClient({ category, products, title }: Catego
                         placeholder="Min Price"
                         value={filters.min_price}
                         onChange={(e) => setFilters({ ...filters, min_price: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                       />
                       <input
                         type="number"
                         placeholder="Max Price"
                         value={filters.max_price}
                         onChange={(e) => setFilters({ ...filters, max_price: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                       />
                     </div>
                   </div>
@@ -156,7 +156,7 @@ export default function CategoryPageClient({ category, products, title }: Catego
                     <select
                       value={filters.price_sort}
                       onChange={(e) => setFilters({ ...filters, price_sort: e.target.value as "none" | "asc" | "desc" })}
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                     >
                       <option value="none">No sorting</option>
                       <option value="asc">Price: Low to High</option>

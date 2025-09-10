@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTranslation } from "react-i18next";
 
 function SearchPage() {
   const searchParams = useSearchParams();
@@ -29,6 +30,7 @@ function SearchPage() {
     price_sort: "none" as "none" | "asc" | "desc"
   });
   const { currentLanguage } = useLanguage();
+  const { t } = useTranslation();
 
   // Initialize favorites from localStorage
   useEffect(() => {
@@ -45,13 +47,6 @@ function SearchPage() {
     }
   }, []);
 
-  // Perform search when query or filters change
-  useEffect(() => {
-    if (query) {
-      performSearch();
-    }
-  }, [query, filters]);
-
   const performSearch = async () => {
     if (!query.trim()) return;
     
@@ -60,7 +55,8 @@ function SearchPage() {
       const searchParams: Record<string, string | number | boolean> = {
         search: query,
         active_only: true,
-        limit: 100
+        limit: 100,
+        language: currentLanguage
       };
 
       // Add price filters
@@ -76,6 +72,13 @@ function SearchPage() {
       setLoading(false);
     }
   };
+
+  // Perform search when query or filters change
+  useEffect(() => {
+    if (query) {
+      performSearch();
+    }
+  }, [query, filters, performSearch]);
 
   const handleToggleFavorite = (productData: { id: string; name: string; price: number; image?: string }) => {
     toggleFavorite(productData);
@@ -121,7 +124,7 @@ function SearchPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Search Results
+              {t('searchResults')}
             </h1>
             
             {/* Filter Button */}
@@ -129,56 +132,56 @@ function SearchPage() {
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <Filter className="w-4 h-4" />
-                  Filters
+                  {t('filters')}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Search Filters</DialogTitle>
+                  <DialogTitle>{t('searchFilters')}</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   {/* Price Range */}
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium">Price Range</label>
+                    <label className="text-sm font-medium">{t('priceRange')}</label>
                     <div className="grid grid-cols-2 gap-2">
                       <input
                         type="number"
-                        placeholder="Min Price"
+                        placeholder={t('minPrice')}
                         value={filters.min_price}
                         onChange={(e) => setFilters({ ...filters, min_price: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                       />
                       <input
                         type="number"
-                        placeholder="Max Price"
+                        placeholder={t('maxPrice')}
                         value={filters.max_price}
                         onChange={(e) => setFilters({ ...filters, max_price: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                       />
                     </div>
                   </div>
 
                   {/* Price Sorting */}
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium">Price Sorting</label>
+                    <label className="text-sm font-medium">{t('priceSorting')}</label>
                     <select
                       value={filters.price_sort}
                       onChange={(e) => setFilters({ ...filters, price_sort: e.target.value as "none" | "asc" | "desc" })}
-                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                      className="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none"
                     >
-                      <option value="none">No sorting</option>
-                      <option value="asc">Price: Low to High</option>
-                      <option value="desc">Price: High to Low</option>
+                      <option value="none">{t('noSorting')}</option>
+                      <option value="asc">{t('priceLowToHigh')}</option>
+                      <option value="desc">{t('priceHighToLow')}</option>
                     </select>
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex gap-2 pt-2">
                     <Button onClick={clearFilters} variant="outline" className="flex-1">
-                      Clear
+                      {t('clear')}
                     </Button>
                     <Button onClick={applyFilters} className="flex-1">
-                      Apply
+                      {t('apply')}
                     </Button>
                   </div>
                 </div>
@@ -188,7 +191,7 @@ function SearchPage() {
           
           {query && (
             <p className="mt-2 text-gray-600">
-              Showing results for “{query}” • {sortedProducts.length} products found
+              {t('showingResultsFor')} &quot;{query}&quot; • {sortedProducts.length} {t('productsFound')}
             </p>
           )}
         </div>
@@ -196,15 +199,15 @@ function SearchPage() {
         {/* Search Results */}
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Searching...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto"></div>
+            <p className="mt-4 text-gray-600">{t('searching')}</p>
           </div>
         ) : sortedProducts.length === 0 ? (
           <div className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noProductsFound')}</h3>
             <p className="text-gray-600">
-              Try adjusting your search terms or filters to find what you’re looking for.
+              {t('tryAdjustingSearch')}
             </p>
           </div>
         ) : (

@@ -19,7 +19,6 @@ export default function VariantSelector({
   initialPrice 
 }: VariantSelectorProps) {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
-  const [totalPrice, setTotalPrice] = useState(initialPrice);
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
 
@@ -63,8 +62,6 @@ export default function VariantSelector({
       total = initialPrice;
     }
     
-    setTotalPrice(total);
-    
     // Notify parent component of selected variants
     onVariantChange(selectedVariants);
   }, [selectedVariants, initialPrice, onVariantChange]);
@@ -103,7 +100,7 @@ export default function VariantSelector({
                 className={`
                   px-4 py-2 text-sm font-medium rounded-lg border transition-all
                   ${isSelected 
-                    ? 'border-blue-500 bg-blue-50 text-blue-700' 
+                    ? 'border-brand-primary bg-brand-primary-light text-brand-primary-dark' 
                     : 'border-gray-300 text-gray-700 hover:border-gray-400'
                   }
                   ${!isAvailable 

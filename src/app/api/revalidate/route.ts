@@ -63,12 +63,12 @@ export async function POST(request: NextRequest) {
         break;
         
       case 'category.deleted':
-        await handleCategoryDeletion(event);
+        await handleCategoryDeletion();
         break;
         
       case 'order.created':
       case 'order.updated':
-        await handleOrderChange(event);
+        await handleOrderChange();
         break;
         
       default:
@@ -170,7 +170,7 @@ async function handleCategoryChange(event: WebhookEvent) {
 }
 
 // Handle category deletion
-async function handleCategoryDeletion(_event: WebhookEvent) {
+async function handleCategoryDeletion() {
   // Revalidate all category pages
   revalidatePath('/category/[slug]', 'page');
   console.log('Revalidated all category pages after category deletion');
@@ -184,7 +184,7 @@ async function handleCategoryDeletion(_event: WebhookEvent) {
 }
 
 // Handle order changes (usually doesn't affect public pages, but good to have)
-async function handleOrderChange(_event: WebhookEvent) {
+async function handleOrderChange() {
   // Orders typically don't affect public page content
   // But we might want to revalidate admin/dashboard pages
   console.log('Order change detected, no public pages to revalidate');

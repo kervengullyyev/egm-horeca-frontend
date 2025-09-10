@@ -248,7 +248,7 @@ export default function CheckoutPage() {
 									value="individual"
 									checked={entityType === "individual"}
 									onChange={(e) => setEntityType(e.target.value as EntityType)}
-									className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+									className="w-4 h-4 text-brand-primary border-gray-300 focus:ring-brand-primary"
 								/>
 								<span className="text-gray-900">Individual Person</span>
 							</label>
@@ -259,7 +259,7 @@ export default function CheckoutPage() {
 									value="company"
 									checked={entityType === "company"}
 									onChange={(e) => setEntityType(e.target.value as EntityType)}
-									className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+									className="w-4 h-4 text-brand-primary border-gray-300 focus:ring-brand-primary"
 								/>
 								<span className="text-gray-900">Legal Entity / Company</span>
 							</label>
@@ -280,7 +280,7 @@ export default function CheckoutPage() {
 									value={formData.firstName}
 									onChange={(e) => handleInputChange("firstName", e.target.value)}
 									required
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 									placeholder="Enter first name"
 								/>
 							</div>
@@ -294,7 +294,7 @@ export default function CheckoutPage() {
 									value={formData.lastName}
 									onChange={(e) => handleInputChange("lastName", e.target.value)}
 									required
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 									placeholder="Enter last name"
 								/>
 							</div>
@@ -308,7 +308,7 @@ export default function CheckoutPage() {
 									value={formData.phone}
 									onChange={(e) => handleInputChange("phone", e.target.value)}
 									required
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 									placeholder="Enter phone number"
 								/>
 							</div>
@@ -322,7 +322,7 @@ export default function CheckoutPage() {
 									value={formData.email}
 									onChange={(e) => handleInputChange("email", e.target.value)}
 									required
-									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 									placeholder="Enter email address"
 								/>
 							</div>
@@ -344,7 +344,7 @@ export default function CheckoutPage() {
 										value={formData.taxId}
 										onChange={(e) => handleInputChange("taxId", e.target.value)}
 										required
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 										placeholder="Enter tax ID"
 									/>
 								</div>
@@ -358,7 +358,7 @@ export default function CheckoutPage() {
 										value={formData.companyName}
 										onChange={(e) => handleInputChange("companyName", e.target.value)}
 										required
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 										placeholder="Enter company name"
 									/>
 								</div>
@@ -371,7 +371,7 @@ export default function CheckoutPage() {
 										id="tradeRegisterNo"
 										value={formData.tradeRegisterNo}
 										onChange={(e) => handleInputChange("tradeRegisterNo", e.target.value)}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 										placeholder="Enter trade register number"
 									/>
 								</div>
@@ -384,7 +384,7 @@ export default function CheckoutPage() {
 										id="bank"
 										value={formData.bank}
 										onChange={(e) => handleInputChange("bank", e.target.value)}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 										placeholder="Enter bank name"
 									/>
 								</div>
@@ -397,7 +397,7 @@ export default function CheckoutPage() {
 										id="iban"
 										value={formData.iban}
 										onChange={(e) => handleInputChange("iban", e.target.value)}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 										placeholder="Enter IBAN"
 									/>
 								</div>
@@ -419,7 +419,7 @@ export default function CheckoutPage() {
 										value={formData.county}
 										onChange={(e) => handleInputChange("county", e.target.value)}
 										required
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary appearance-none"
 									>
 										<option value="">Choose a county...</option>
 										<option value="bucharest">Bucharest</option>
@@ -446,7 +446,7 @@ export default function CheckoutPage() {
 										value={formData.city}
 										onChange={(e) => handleInputChange("city", e.target.value)}
 										required
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary appearance-none"
 									>
 										<option value="">Choose a city...</option>
 										<option value="bucharest">Bucharest</option>
@@ -479,7 +479,7 @@ export default function CheckoutPage() {
 								onChange={(e) => handleInputChange("address", e.target.value)}
 								required
 								rows={3}
-								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-brand-primary"
 								placeholder="Enter your full address"
 							/>
 						</div>

@@ -52,7 +52,7 @@ export default function AboutUsPage() {
                 </Link>
                 <Link 
                   href="/contact" 
-                  className="inline-flex items-center justify-center px-8 py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+                  className="inline-flex items-center justify-center px-8 py-3 border-2 border-brand-primary text-brand-primary font-semibold rounded-lg hover:bg-brand-primary-light transition-colors"
                 >
                   {t('contactUs')}
                 </Link>
@@ -136,7 +136,7 @@ export default function AboutUsPage() {
                 </Link>
                 <Link 
                   href="/contact" 
-                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-primary text-brand-primary font-semibold rounded-lg hover:bg-brand-primary-light transition-colors"
                 >
                   {t('learnMore')}
                 </Link>
@@ -212,7 +212,7 @@ export default function AboutUsPage() {
                 </Link>
                 <Link 
                   href="/contact" 
-                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 border-2 border-brand-primary text-brand-primary font-semibold rounded-lg hover:bg-brand-primary-light transition-colors"
                 >
                   Learn More
                 </Link>
@@ -357,7 +357,7 @@ export default function AboutUsPage() {
               </Link>
               <Link 
                 href="/contact" 
-                className="inline-flex items-center justify-center px-8 py-3 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors"
+                className="inline-flex items-center justify-center px-8 py-3 border-2 border-brand-primary text-brand-primary font-semibold rounded-lg hover:bg-brand-primary-light transition-colors"
               >
                 {t('getInTouch')}
               </Link>

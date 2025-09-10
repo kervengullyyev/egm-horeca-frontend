@@ -59,8 +59,10 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
-				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
+				if (typeof window !== 'undefined') {
+					localStorage.setItem('authToken', result.token);
+					localStorage.setItem('user', JSON.stringify(result.user));
+				}
 			}
 
 			return result;
@@ -88,8 +90,10 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
-				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
+				if (typeof window !== 'undefined') {
+					localStorage.setItem('authToken', result.token);
+					localStorage.setItem('user', JSON.stringify(result.user));
+				}
 			}
 
 			return result;
@@ -117,8 +121,10 @@ class AuthService {
 
 			// Store token in localStorage
 			if (result.token) {
-				typeof window !== 'undefined' && localStorage.setItem('authToken', result.token);
-				typeof window !== 'undefined' && localStorage.setItem('user', JSON.stringify(result.user));
+				if (typeof window !== 'undefined') {
+					localStorage.setItem('authToken', result.token);
+					localStorage.setItem('user', JSON.stringify(result.user));
+				}
 			}
 
 			return result;
@@ -142,8 +148,10 @@ class AuthService {
 		} catch (error) {
 			console.error('Sign out error:', error);
 		} finally {
-			typeof window !== 'undefined' && localStorage.removeItem('authToken');
-			typeof window !== 'undefined' && localStorage.removeItem('user');
+			if (typeof window !== 'undefined') {
+				localStorage.removeItem('authToken');
+				localStorage.removeItem('user');
+			}
 		}
 	}
 

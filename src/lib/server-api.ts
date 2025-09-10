@@ -72,6 +72,7 @@ export const getCachedProducts = unstable_cache(
     min_price?: number;
     max_price?: number;
     brand?: string;
+    language?: string;
   }) => {
     const searchParams = new URLSearchParams();
     if (params) {

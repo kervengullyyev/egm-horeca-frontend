@@ -1,18 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, Phone, MessageCircle, MapPin } from "lucide-react";
+import { Mail, Phone, MessageCircle, MapPin, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import Logo from "./Logo";
 
 export default function Footer() {
 	const { t } = useTranslation();
+	const { currentLanguage, setLanguage, languages } = useLanguage();
+	const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+
+	// Close language dropdown when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (showLanguageDropdown && !(event.target as Element).closest('.language-dropdown')) {
+				setShowLanguageDropdown(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	}, [showLanguageDropdown]);
 	return (
 		<footer className="mt-16 w-full bg-gray-100">
 			<div className="mx-auto max-w-7xl px-4 py-12">
 				<div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-5">
 					{/* Company Info */}
 					<div className="lg:col-span-2">
-						<div className="text-xl font-semibold tracking-tight">EGM HORECA</div>
+						<div className="mb-3">
+							<Logo 
+								width={140}
+								height={21}
+								className="h-6 w-auto"
+								href=""
+							/>
+						</div>
 						<p className="mt-3 max-w-sm text-sm text-foreground/70">
 							{t('bottomTagline')}
 						</p>
@@ -161,6 +185,33 @@ export default function Footer() {
 							© 2024 EGM HORECA. {t('rightsReserved')}
 						</p>
 						<div className="flex items-center gap-6 text-sm text-foreground/70">
+							{/* Language Selector */}
+							<div className="language-dropdown relative">
+								<button
+									onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+									className="flex items-center gap-1 hover:text-foreground transition-colors"
+								>
+									{currentLanguage === 'en' ? '🇺🇸 English' : '🇷🇴 Română'}
+									<ChevronDown className="w-3 h-3" />
+								</button>
+								{showLanguageDropdown && (
+									<div className="absolute right-0 bottom-full mb-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
+										{languages.map((lang) => (
+											<button
+												key={lang.code}
+												onClick={() => {
+													setLanguage(lang.code);
+													setShowLanguageDropdown(false);
+												}}
+												className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
+											>
+												<span>{lang.flag}</span>
+												{lang.name}
+											</button>
+										))}
+									</div>
+								)}
+							</div>
 							<span>{t('bottomTagline')}</span>
 						</div>
 					</div>

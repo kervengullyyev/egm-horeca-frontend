@@ -2,23 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Search, ShoppingBag, User, Heart, ChevronDown, Menu, X } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Search, ShoppingBag, User, Heart, Menu, X } from "lucide-react";
 import { getCart } from "@/lib/cart";
 import { getFavorites } from "@/lib/favorites";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import { api, type Category } from "@/lib/api";
+import Logo from "./Logo";
 
 export default function Header() {
 	const [query, setQuery] = useState("");
 	const [cartCount, setCartCount] = useState(0);
 	const [favoritesCount, setFavoritesCount] = useState(0);
-	const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [categories, setCategories] = useState<Category[]>([]);
-	const { currentLanguage, setLanguage, languages } = useLanguage();
 	const { t } = useTranslation();
 	const router = useRouter();
 
@@ -34,7 +32,7 @@ export default function Header() {
 		try {
 			const favorites = getFavorites();
 			setFavoritesCount(favorites.length);
-		} catch (error) {
+		} catch {
 			// Fallback to reading directly from localStorage
 			if (typeof window !== 'undefined') {
 				const savedFavorites = localStorage.getItem('favorites');
@@ -83,17 +81,6 @@ export default function Header() {
 		};
 	}, []);
 
-	// Close language dropdown when clicking outside
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (showLanguageDropdown && !(event.target as Element).closest('.language-dropdown')) {
-				setShowLanguageDropdown(false);
-			}
-		};
-
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => document.removeEventListener('mousedown', handleClickOutside);
-	}, [showLanguageDropdown]);
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -104,44 +91,6 @@ export default function Header() {
 
 	return (
 		<header className="w-full bg-white border-b border-black/10">
-			{/* Top header - hidden on mobile */}
-			<div className="hidden md:block bg-gray-50 border-b border-black/10">
-				<div className="mx-auto max-w-7xl px-4">
-					<div className="flex items-center justify-between py-2 text-xs text-foreground/60">
-						<div className="flex items-center gap-4">
-							<span>{t('tagline')}</span>
-						</div>
-						<div className="flex items-center gap-4">
-							<div className="language-dropdown relative">
-								<button
-									onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-									className="flex items-center gap-1 hover:text-foreground transition-colors"
-								>
-									{currentLanguage === 'en' ? '🇺🇸 English' : '🇷🇴 Română'}
-									<ChevronDown className="w-3 h-3" />
-								</button>
-								{showLanguageDropdown && (
-									<div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
-										{languages.map((lang) => (
-											<button
-												key={lang.code}
-												onClick={() => {
-													setLanguage(lang.code);
-													setShowLanguageDropdown(false);
-												}}
-												className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
-											>
-												<span>{lang.flag}</span>
-												{lang.name}
-											</button>
-										))}
-									</div>
-								)}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 
 			{/* Main header */}
 			<div className="mx-auto max-w-7xl px-4">
@@ -157,9 +106,7 @@ export default function Header() {
 						</button>
 
 						{/* Logo - on same line as hamburger menu */}
-						<Link href="/" className="font-semibold tracking-tight text-xl md:text-2xl">
-							EGM HORECA
-						</Link>
+						<Logo />
 					</div>
 
 					{/* Search bar - inline on desktop, hidden on mobile */}
@@ -199,7 +146,7 @@ export default function Header() {
 						<Link href="/cart" className="relative p-2 hover:bg-black/5 rounded-full transition-colors">
 							<ShoppingBag className="w-5 h-5" />
 							{cartCount > 0 && (
-								<span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+								<span className="absolute -top-1 -right-1 bg-brand-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
 									{cartCount}
 								</span>
 							)}
@@ -253,33 +200,6 @@ export default function Header() {
 
 							{/* Scrollable content */}
 							<div className="flex-1 overflow-y-auto p-4">
-								{/* Language selector */}
-								<div className="language-dropdown relative mb-6">
-									<button
-										onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-										className="flex items-center gap-2 w-full text-left px-4 py-3 text-sm hover:bg-gray-50 rounded-lg transition-colors border border-gray-200"
-									>
-										{currentLanguage === 'en' ? '🇺🇸 English' : '🇷🇴 Română'}
-										<ChevronDown className="w-4 h-4 ml-auto" />
-									</button>
-									{showLanguageDropdown && (
-										<div className="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-[140px] z-50">
-											{languages.map((lang) => (
-												<button
-													key={lang.code}
-													onClick={() => {
-														setLanguage(lang.code);
-														setShowLanguageDropdown(false);
-													}}
-													className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
-												>
-													<span>{lang.flag}</span>
-													{lang.name}
-												</button>
-											))}
-										</div>
-									)}
-								</div>
 
 								{/* Categories */}
 								<div className="mb-6">
@@ -294,21 +214,17 @@ export default function Header() {
 											>
 												<Image 
 													src={c.image_url || "/icons/plates.png"} 
-													alt={currentLanguage === 'ro' ? (c.name_ro || c.name_en) : c.name_en}
+													alt={c.name_en}
 													width={20}
 													height={20}
 													className="w-5 h-5 object-contain"
 												/>
-												<span>{currentLanguage === 'ro' ? (c.name_ro || c.name_en) : c.name_en}</span>
+												<span>{c.name_en}</span>
 											</Link>
 										))}
 									</div>
 								</div>
 								
-								{/* Tagline */}
-								<div className="px-4 py-2 text-sm text-foreground/60 mb-6">
-									{t('tagline')}
-								</div>
 								
 								{/* User account */}
 								<Link 

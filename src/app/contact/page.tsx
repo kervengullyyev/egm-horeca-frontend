@@ -184,7 +184,7 @@ export default function ContactPage() {
                     name="firstName"
                     required
                     placeholder="Jane"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-colors"
                   />
                 </div>
                 
@@ -198,7 +198,7 @@ export default function ContactPage() {
                     name="lastName"
                     required
                     placeholder="Smith"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-colors"
                   />
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function ContactPage() {
                   required
                   rows={4}
                   placeholder="Leave us a message..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-colors resize-none"
                 />
               </div>
 
@@ -237,7 +237,7 @@ export default function ContactPage() {
                   id="privacy"
                   name="privacy"
                   required
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-brand-primary border-gray-300 rounded focus:ring-brand-primary"
                 />
                 <label htmlFor="privacy" className="text-sm text-gray-700">
                   I agree to the{" "}

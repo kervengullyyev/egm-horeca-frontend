@@ -202,6 +202,7 @@ export const api = {
     min_price?: number;
     max_price?: number;
     brand?: string;
+    language?: string;
   }) => {
     const searchParams = new URLSearchParams();
     if (params) {
