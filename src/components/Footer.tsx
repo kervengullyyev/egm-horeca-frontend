@@ -187,7 +187,7 @@ export default function Footer() {
 				<div className="mt-10 pt-8 border-t border-gray-200">
 					<div className="flex flex-col sm:flex-row justify-between items-center gap-4">
 						<p className="text-sm text-foreground/70">
-							© 2024 EGM HORECA. {t('rightsReserved')}
+							© 2025 EGM HORECA. {t('rightsReserved')}
 						</p>
 						<div className="flex items-center gap-6 text-sm text-foreground/70">
 							{/* Language Selector */}

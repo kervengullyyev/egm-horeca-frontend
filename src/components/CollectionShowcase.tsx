@@ -38,12 +38,12 @@ export default function CollectionShowcase() {
 						<br /> Collections
 					</h2>
 					<div className="max-w-md">
-						<div className="flex justify-end">
+						{/* <div className="flex justify-end">
 							<button className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground">
 								View More
 								<ArrowUpRight className="h-4 w-4" />
 							</button>
-						</div>
+						</div> */}
 						<p className="mt-3 text-sm leading-6 text-foreground/70">
 							Discover our carefully curated collections designed for professional kitchens, restaurants, hotels, and cafés. Quality tableware that elevates every dining experience.
 						</p>

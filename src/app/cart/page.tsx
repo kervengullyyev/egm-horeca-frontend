@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Heart, Trash2, Minus, Plus, ImageIcon } from "lucide-react";
 import { getCart, updateQty, removeFromCart, CartCookieItem } from "@/lib/cart";
+import { toggleFavorite, isFavorite, FavoriteItem } from "@/lib/favorites";
 
 type DisplayCartItem = CartCookieItem & {
 	status: "in-stock" | "available-soon" | "out-of-stock";
@@ -42,6 +43,19 @@ export default function CartPage() {
 		setItems(withStatus);
 	}, []);
 
+	// Listen for favorites updates to refresh the UI
+	useEffect(() => {
+		const handleFavoritesUpdate = () => {
+			// Force re-render to update heart icons
+			setItems(prev => [...prev]);
+		};
+		
+		window.addEventListener('favoritesUpdated', handleFavoritesUpdate);
+		return () => {
+			window.removeEventListener('favoritesUpdated', handleFavoritesUpdate);
+		};
+	}, []);
+
 	const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.price * item.qty, 0), [items]);
 	const tax = subtotal * 0.21;
 	const total = subtotal + tax;
@@ -65,6 +79,16 @@ export default function CartPage() {
 			(it.size || null) === (size || null) && 
 			JSON.stringify(it.variants || {}) === JSON.stringify(variants || {})
 		)));
+	};
+
+	const handleToggleFavorite = (item: DisplayCartItem) => {
+		const favoriteItem: FavoriteItem = {
+			id: item.id,
+			name: item.name,
+			price: item.price,
+			image: item.image || undefined
+		};
+		toggleFavorite(favoriteItem);
 	};
 
 	return (
@@ -132,8 +156,11 @@ export default function CartPage() {
 
 									{/* Actions */}
 									<div className="flex flex-col gap-2">
-										<button className="inline-flex h-8 w-8 items-center justify-center rounded border border-black/20 text-black/60 hover:text-black">
-											<Heart className="h-4 w-4" />
+										<button 
+											onClick={() => handleToggleFavorite(item)}
+											className="inline-flex h-8 w-8 items-center justify-center rounded border border-black/20 text-black/60 hover:text-black"
+										>
+											<Heart className={`h-4 w-4 ${isFavorite(item.id) ? 'fill-red-500 text-red-500' : ''}`} />
 										</button>
 										<button onClick={() => remove(item.id, null, item.variants)} className="inline-flex h-8 w-8 items-center justify-center rounded border border-black/20 text-black/60 hover:text-black">
 											<Trash2 className="h-4 w-4" />
