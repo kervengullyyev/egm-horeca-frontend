@@ -94,7 +94,7 @@ export const getCachedProducts = unstable_cache(
 
 export const getCachedFeaturedProducts = unstable_cache(
   async () => {
-    return serverApiClient.get<Product[]>('/products?limit=8&active_only=true');
+    return serverApiClient.get<Product[]>('/products?limit=8&active_only=true&is_featured=true');
   },
   ['featured-products'],
   {
@@ -105,7 +105,7 @@ export const getCachedFeaturedProducts = unstable_cache(
 
 export const getCachedTopProducts = unstable_cache(
   async () => {
-    return serverApiClient.get<Product[]>('/products?limit=6&skip=8&active_only=true');
+    return serverApiClient.get<Product[]>('/products?limit=6&active_only=true&is_top_product=true');
   },
   ['top-products'],
   {

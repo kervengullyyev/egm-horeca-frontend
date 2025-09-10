@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 const STORAGE_KEY = "favorites";
 
 export interface FavoriteItem {
@@ -42,13 +44,25 @@ export function addToFavorites(item: FavoriteItem) {
 	if (!favorites.find(f => f.id === item.id)) {
 		favorites.push(item);
 		setFavorites(favorites);
+		toast.success("Added to favorites", {
+			description: item.name,
+			duration: 3000,
+		});
 	}
 }
 
 export function removeFromFavorites(id: string) {
 	const favorites = getFavorites();
+	const itemToRemove = favorites.find(f => f.id === id);
 	const filtered = favorites.filter(f => f.id !== id);
 	setFavorites(filtered);
+	
+	if (itemToRemove) {
+		toast.info("Removed from favorites", {
+			description: itemToRemove.name,
+			duration: 3000,
+		});
+	}
 }
 
 export function isFavorite(id: string): boolean {

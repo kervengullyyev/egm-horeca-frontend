@@ -19,9 +19,9 @@ export default function LoadingSpinner({
     <div className="flex flex-col items-center justify-center py-12">
       <div className="relative mb-4">
         <Logo 
-          width={60}
-          height={9}
-          className="h-6 w-auto opacity-50"
+          width={50}
+          height={7}
+          className="h-5 w-auto opacity-50"
           href=""
         />
         <div className={`absolute inset-0 ${sizeClasses[size]} border-2 border-brand-primary border-t-transparent rounded-full animate-spin`}></div>

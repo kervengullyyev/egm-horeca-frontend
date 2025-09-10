@@ -6,6 +6,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import CategoryMenu from "@/components/CategoryMenu";
 import Footer from "@/components/Footer";
+import { Toaster } from "sonner";
 
 const geist = Geist({
   variable: "--font-geist-sans",
@@ -34,20 +35,21 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${geist.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
-        <LanguageProvider>
-          <Header />
-          <CategoryMenu />
-          {children}
-          <Footer />
-        </LanguageProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={`${geist.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+				<LanguageProvider>
+					<Header />
+					<CategoryMenu />
+					{children}
+					<Footer />
+					<Toaster position="top-center" richColors />
+				</LanguageProvider>
+			</body>
+		</html>
+	);
 }

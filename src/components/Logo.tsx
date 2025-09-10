@@ -10,9 +10,9 @@ interface LogoProps {
 }
 
 export default function Logo({ 
-  width = 120, 
-  height = 18, 
-  className = "h-6 md:h-8 w-auto",
+  width = 100, 
+  height = 15, 
+  className = "h-5 md:h-6 w-auto",
   href = "/",
   alt = "EGM HORECA"
 }: LogoProps) {

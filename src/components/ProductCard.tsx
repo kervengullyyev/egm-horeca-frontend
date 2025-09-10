@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Image as ImageIcon, Heart } from "lucide-react";
 import { addToCart } from "@/lib/cart";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 type ProductCardProps = {
 	title: string;
@@ -37,7 +38,7 @@ export default function ProductCard({
 	const displayImage = images && images.length > 0 ? images[0] : imageUrl;
 	
 	// Check if this product is in favorites and update state
-	const updateFavoriteState = () => {
+	const updateFavoriteState = useCallback(() => {
 		if (!onToggleFavorite) return; // No favorite functionality
 		
 		// Extract product slug from href or use a fallback
@@ -65,7 +66,7 @@ export default function ProductCard({
 				console.log(`ProductCard ${productSlug}: No favorites in localStorage`);
 			}
 		}
-	};
+	}, [href, onToggleFavorite]);
 	
 	// Initialize favorite state and listen for updates
 	useEffect(() => {
@@ -80,12 +81,12 @@ export default function ProductCard({
 		return () => {
 			window.removeEventListener('favoritesUpdated', handleFavoritesUpdate);
 		};
-	}, [href]);
+	}, [href, updateFavoriteState]);
 
 	// Also update state when href changes (different product)
 	useEffect(() => {
 		updateFavoriteState();
-	}, [href]);
+	}, [href, updateFavoriteState]);
 
 
 	
@@ -226,11 +227,14 @@ export default function ProductCard({
 								addToCart(cartItem);
 								console.log('Item added to cart successfully');
 								
-								// Show success message
-								alert(`${t('addedToCart')}: ${title}`);
+								// Show success toast
+								toast.success(`${t('addedToCart')}: ${title}`, {
+									description: `${price} RON`,
+									duration: 3000,
+								});
 							} catch (error) {
 								console.error('Error adding to cart:', error);
-								alert('Error adding item to cart. Please try again.');
+								toast.error('Error adding item to cart. Please try again.');
 							}
 						}}
 						className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"

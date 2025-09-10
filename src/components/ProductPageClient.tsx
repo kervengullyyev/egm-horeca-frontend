@@ -10,6 +10,7 @@ import { toggleFavorite } from "@/lib/favorites";
 import { Product, ProductVariant } from "@/lib/api";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { toast } from "sonner";
 import {
   Carousel,
   CarouselContent,
@@ -72,7 +73,7 @@ export default function ProductPageClient({ product, variants, relatedProducts }
       setSelectedVariants(autoSelectedVariants);
       setCurrentPrice(initialVariantPrice);
     }
-  }, [variants, product.price || 0, product.variant_type_en]);
+  }, [variants, product.price, product.variant_type_en]);
 
   // Sync carousel with image index
   useEffect(() => {
@@ -143,27 +144,38 @@ export default function ProductPageClient({ product, variants, relatedProducts }
   };
 
   const onAddToCart = () => {
-    addToCart({ 
-      id: product.id.toString(),
-      slug: product.slug, 
-      name: product.name_en, 
-      price: currentPrice, 
-      qty: 1, 
-      size: selectedSize ?? null, 
-      image: product.images && product.images.length > 0 ? product.images[0] : null,
-      variants: Object.keys(selectedVariants).length > 0 ? 
-        Object.entries(selectedVariants).reduce((acc, [key, variant]) => {
-          acc[key] = {
-            name_en: key,
-            value_en: variant.value_en,
-            price: variant.price || 0
-          };
-          return acc;
-        }, {} as Record<string, { name_en: string; value_en: string; price: number }>) 
-        : undefined
-    });
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 3000);
+    try {
+      addToCart({ 
+        id: product.id.toString(),
+        slug: product.slug, 
+        name: product.name_en, 
+        price: currentPrice, 
+        qty: 1, 
+        size: selectedSize ?? null, 
+        image: product.images && product.images.length > 0 ? product.images[0] : null,
+        variants: Object.keys(selectedVariants).length > 0 ? 
+          Object.entries(selectedVariants).reduce((acc, [key, variant]) => {
+            acc[key] = {
+              name_en: key,
+              value_en: variant.value_en,
+              price: variant.price || 0
+            };
+            return acc;
+          }, {} as Record<string, { name_en: string; value_en: string; price: number }>) 
+          : undefined
+      });
+      setAddedToCart(true);
+      setTimeout(() => setAddedToCart(false), 3000);
+      
+      // Show success toast
+      toast.success(`${t('addedToCart')}: ${product.name_en}`, {
+        description: `${currentPrice} RON`,
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      toast.error('Error adding item to cart. Please try again.');
+    }
   };
 
   const onToggleFavorite = () => {

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Search, Filter } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import { api, Product } from "@/lib/api";
 import { toggleFavorite } from "@/lib/favorites";
 import {
@@ -47,7 +48,7 @@ function SearchPage() {
     }
   }, []);
 
-  const performSearch = async () => {
+  const performSearch = useCallback(async () => {
     if (!query.trim()) return;
     
     setLoading(true);
@@ -55,8 +56,7 @@ function SearchPage() {
       const searchParams: Record<string, string | number | boolean> = {
         search: query,
         active_only: true,
-        limit: 100,
-        language: currentLanguage
+        limit: 100
       };
 
       // Add price filters
@@ -71,14 +71,14 @@ function SearchPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [query, filters.min_price, filters.max_price]);
 
   // Perform search when query or filters change
   useEffect(() => {
     if (query) {
       performSearch();
     }
-  }, [query, filters, performSearch]);
+  }, [query, performSearch]);
 
   const handleToggleFavorite = (productData: { id: string; name: string; price: number; image?: string }) => {
     toggleFavorite(productData);
@@ -198,9 +198,10 @@ function SearchPage() {
 
         {/* Search Results */}
         {loading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-primary mx-auto"></div>
-            <p className="mt-4 text-gray-600">{t('searching')}</p>
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4 items-start">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
           </div>
         ) : sortedProducts.length === 0 ? (
           <div className="text-center py-12">

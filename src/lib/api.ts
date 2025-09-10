@@ -97,6 +97,8 @@ export interface Product {
   has_variants: boolean;
   variant_type_en?: string;  // e.g., "Size", "Color", "Material"
   variant_type_ro?: string;  // Romanian variant type
+  is_featured: boolean;
+  is_top_product: boolean;
   variants?: ProductVariant[];
   category?: Category;
   created_at: string;

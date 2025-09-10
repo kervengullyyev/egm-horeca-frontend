@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,8 +8,9 @@ import { Search, ShoppingBag, User, Heart, Menu, X, Settings } from "lucide-reac
 import { getCart } from "@/lib/cart";
 import { getFavorites } from "@/lib/favorites";
 import { useTranslation } from "react-i18next";
-import { api, type Category } from "@/lib/api";
+import { api, type Category, type Product } from "@/lib/api";
 import Logo from "./Logo";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Header() {
 	const [query, setQuery] = useState("");
@@ -17,6 +18,10 @@ export default function Header() {
 	const [favoritesCount, setFavoritesCount] = useState(0);
 	const [showMobileMenu, setShowMobileMenu] = useState(false);
 	const [categories, setCategories] = useState<Category[]>([]);
+	const [searchResults, setSearchResults] = useState<Product[]>([]);
+	const [isSearching, setIsSearching] = useState(false);
+	const [showSearchResults, setShowSearchResults] = useState(false);
+	const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const { t } = useTranslation();
 	const router = useRouter();
 
@@ -81,13 +86,70 @@ export default function Header() {
 		};
 	}, []);
 
+	// Debounced search function
+	const performSearch = useCallback(async (searchQuery: string) => {
+		if (!searchQuery.trim()) {
+			setSearchResults([]);
+			setShowSearchResults(false);
+			return;
+		}
 
+		setIsSearching(true);
+		try {
+			const results = await api.getProducts({
+				search: searchQuery,
+				active_only: true,
+				limit: 8 // Limit results for dropdown
+			});
+			setSearchResults(results);
+			setShowSearchResults(true);
+		} catch (error) {
+			console.error('Error performing search:', error);
+			setSearchResults([]);
+		} finally {
+			setIsSearching(false);
+		}
+	}, []);
+
+	// Handle search input change with debouncing
+	const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setQuery(value);
+
+		// Clear previous timeout
+		if (searchTimeoutRef.current) {
+			clearTimeout(searchTimeoutRef.current);
+		}
+
+		// Set new timeout for debounced search
+		searchTimeoutRef.current = setTimeout(() => {
+			performSearch(value);
+		}, 300); // 300ms debounce
+	};
+
+	// Handle search form submission
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (query.trim()) {
 			router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+			setShowSearchResults(false);
 		}
 	};
+
+	// Hide search results when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			const target = event.target as HTMLElement;
+			if (!target.closest('.search-container')) {
+				setShowSearchResults(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, []);
 
 	return (
 		<header className="w-full bg-white border-b border-black/10">
@@ -110,14 +172,14 @@ export default function Header() {
 					</div>
 
 					{/* Search bar - inline on desktop, hidden on mobile */}
-					<div className="hidden md:block flex-1 max-w-2xl mx-8">
+					<div className="hidden md:block flex-1 max-w-2xl mx-8 search-container">
 						<form onSubmit={handleSearch} className="flex items-center gap-3">
 							<div className="relative flex-1">
 								<input
 									type="text"
 									placeholder={t('searchPlaceholder')}
 									value={query}
-									onChange={(e) => setQuery(e.target.value)}
+									onChange={handleSearchInputChange}
 									className="w-full rounded-full border border-black/10 bg-white px-4 py-2 text-sm placeholder:text-gray-400 focus:border-black focus:outline-none pr-10"
 								/>
 								<button 
@@ -126,6 +188,73 @@ export default function Header() {
 								>
 									<Search className="h-4 w-4" />
 								</button>
+								
+								{/* Search Results Dropdown */}
+								{showSearchResults && (
+									<div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+										{isSearching ? (
+											<div className="py-2">
+												{Array.from({ length: 3 }).map((_, index) => (
+													<div key={index} className="flex items-center gap-3 p-3">
+														<Skeleton className="w-10 h-10 rounded" />
+														<div className="flex-1 min-w-0">
+															<Skeleton className="h-4 w-3/4 mb-1" />
+															<Skeleton className="h-3 w-1/4" />
+														</div>
+													</div>
+												))}
+											</div>
+										) : searchResults.length > 0 ? (
+											<div className="py-2">
+												{searchResults.map((product) => (
+													<Link
+														key={product.id}
+														href={`/product/${product.slug}`}
+														className="flex items-center gap-3 p-3 hover:bg-gray-50 transition-colors"
+														onClick={() => setShowSearchResults(false)}
+													>
+														{product.images && product.images.length > 0 ? (
+															<Image
+																src={product.images[0]}
+																alt={product.name_en}
+																width={40}
+																height={40}
+																className="w-10 h-10 object-cover rounded"
+															/>
+														) : (
+															<div className="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+																<Search className="w-4 h-4 text-gray-400" />
+															</div>
+														)}
+														<div className="flex-1 min-w-0">
+															<p className="text-sm font-medium text-gray-900 truncate">
+																{product.name_en}
+															</p>
+															<p className="text-sm text-gray-500">
+																{product.price} RON
+															</p>
+														</div>
+													</Link>
+												))}
+												{query.trim() && (
+													<div className="border-t border-gray-100 p-2">
+														<Link
+															href={`/search?q=${encodeURIComponent(query.trim())}`}
+															className="block w-full text-center py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded transition-colors"
+															onClick={() => setShowSearchResults(false)}
+														>
+															View all results for &quot;{query}&quot;
+														</Link>
+													</div>
+												)}
+											</div>
+										) : query.trim() ? (
+											<div className="p-4 text-center text-gray-500">
+												<p className="text-sm">No products found</p>
+											</div>
+										) : null}
+									</div>
+								)}
 							</div>
 						</form>
 					</div>
@@ -160,14 +289,14 @@ export default function Header() {
 				</div>
 
 				{/* Search bar - full width below header on mobile only */}
-				<div className="md:hidden pb-4">
+				<div className="md:hidden pb-4 search-container">
 					<form onSubmit={handleSearch} className="flex items-center gap-3">
 						<div className="relative flex-1">
 							<input
 								type="text"
 								placeholder={t('searchPlaceholder')}
 								value={query}
-								onChange={(e) => setQuery(e.target.value)}
+								onChange={handleSearchInputChange}
 								className="w-full rounded-full border border-black/10 bg-white px-4 py-2 text-sm placeholder:text-gray-400 focus:border-black focus:outline-none pr-10"
 							/>
 							<button 
@@ -176,6 +305,73 @@ export default function Header() {
 							>
 								<Search className="h-4 w-4" />
 							</button>
+							
+							{/* Mobile Search Results Dropdown */}
+							{showSearchResults && (
+								<div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+									{isSearching ? (
+										<div className="py-2">
+											{Array.from({ length: 3 }).map((_, index) => (
+												<div key={index} className="flex items-center gap-3 p-3">
+													<Skeleton className="w-10 h-10 rounded" />
+													<div className="flex-1 min-w-0">
+														<Skeleton className="h-4 w-3/4 mb-1" />
+														<Skeleton className="h-3 w-1/4" />
+													</div>
+												</div>
+											))}
+										</div>
+									) : searchResults.length > 0 ? (
+										<div className="py-2">
+											{searchResults.map((product) => (
+												<Link
+													key={product.id}
+													href={`/product/${product.slug}`}
+													className="flex items-center gap-3 p-3 hover:bg-gray-50 transition-colors"
+													onClick={() => setShowSearchResults(false)}
+												>
+													{product.images && product.images.length > 0 ? (
+														<Image
+															src={product.images[0]}
+															alt={product.name_en}
+															width={40}
+															height={40}
+															className="w-10 h-10 object-cover rounded"
+														/>
+													) : (
+														<div className="w-10 h-10 bg-gray-200 rounded flex items-center justify-center">
+															<Search className="w-4 h-4 text-gray-400" />
+														</div>
+													)}
+													<div className="flex-1 min-w-0">
+														<p className="text-sm font-medium text-gray-900 truncate">
+															{product.name_en}
+														</p>
+														<p className="text-sm text-gray-500">
+															{product.price} RON
+														</p>
+													</div>
+												</Link>
+											))}
+											{query.trim() && (
+												<div className="border-t border-gray-100 p-2">
+													<Link
+														href={`/search?q=${encodeURIComponent(query.trim())}`}
+														className="block w-full text-center py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded transition-colors"
+														onClick={() => setShowSearchResults(false)}
+													>
+														View all results for &quot;{query}&quot;
+													</Link>
+												</div>
+											)}
+										</div>
+									) : query.trim() ? (
+										<div className="p-4 text-center text-gray-500">
+											<p className="text-sm">No products found</p>
+										</div>
+									) : null}
+								</div>
+							)}
 						</div>
 					</form>
 				</div>
