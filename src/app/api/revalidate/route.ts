@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import crypto from 'crypto';
 
 // Webhook secret for security (should match backend)
@@ -116,11 +116,6 @@ async function handleProductChange(event: WebhookEvent) {
   // Revalidate search page
   revalidatePath('/search');
   console.log('Revalidated search page');
-  
-  // Revalidate product tags for more granular control
-  revalidateTag('products');
-  revalidateTag('featured-products');
-  revalidateTag('top-products');
 }
 
 // Handle product deletion
@@ -140,11 +135,6 @@ async function handleProductDeletion(_event: WebhookEvent) {
   // Revalidate search page
   revalidatePath('/search');
   console.log('Revalidated search page after product deletion');
-  
-  // Revalidate product tags
-  revalidateTag('products');
-  revalidateTag('featured-products');
-  revalidateTag('top-products');
 }
 
 // Handle category changes
@@ -164,9 +154,6 @@ async function handleCategoryChange(event: WebhookEvent) {
   // Revalidate home page (category showcase)
   revalidatePath('/');
   console.log('Revalidated home page');
-  
-  // Revalidate category tags
-  revalidateTag('categories');
 }
 
 // Handle category deletion
@@ -178,9 +165,6 @@ async function handleCategoryDeletion() {
   // Revalidate home page
   revalidatePath('/');
   console.log('Revalidated home page after category deletion');
-  
-  // Revalidate category tags
-  revalidateTag('categories');
 }
 
 // Handle order changes (usually doesn't affect public pages, but good to have)

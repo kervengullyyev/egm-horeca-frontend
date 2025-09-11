@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -241,9 +242,9 @@ export default function ContactPage() {
                 />
                 <label htmlFor="privacy" className="text-sm text-gray-700">
                   I agree to the{" "}
-                  <a href="/privacy" className="text-blue-600 hover:underline">
+                  <Link href="/privacy" className="text-blue-600 hover:underline">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </label>
               </div>
 

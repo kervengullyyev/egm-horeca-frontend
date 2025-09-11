@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CategoryMenu() {
 	const { currentLanguage } = useLanguage();
@@ -65,16 +64,7 @@ export default function CategoryMenu() {
 		<nav className="hidden md:block w-full border-b border-black/10 bg-white">
 			<div className="mx-auto max-w-7xl px-4">
 				<div className="relative py-3 flex items-center">
-					{loading ? (
-						<div className="w-full flex items-center gap-4 overflow-hidden">
-							{Array.from({ length: 8 }).map((_, index) => (
-								<div key={index} className="flex items-center gap-2 whitespace-nowrap">
-									<Skeleton className="w-5 h-5 rounded" />
-									<Skeleton className="h-4 w-16" />
-								</div>
-							))}
-						</div>
-					) : (
+					{loading ? null : (
 						<Carousel
 							opts={{
 								align: "start",

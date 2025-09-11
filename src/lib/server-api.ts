@@ -23,6 +23,10 @@ class ServerApiClient {
         'Content-Type': 'application/json',
         ...options.headers,
       },
+      // Default to force-cache for GET requests unless explicitly overridden
+      ...(options.method === undefined || options.method === 'GET'
+        ? { cache: options.cache ?? 'force-cache' }
+        : {}),
       ...options,
     };
 
@@ -56,10 +60,7 @@ export const getCachedCategories = unstable_cache(
     return serverApiClient.get<Category[]>('/categories');
   },
   ['categories'],
-  {
-    tags: ['categories'],
-    revalidate: 3600, // 1 hour
-  }
+  undefined
 );
 
 export const getCachedProducts = unstable_cache(
@@ -86,10 +87,7 @@ export const getCachedProducts = unstable_cache(
     return serverApiClient.get<Product[]>(`/products${queryString ? `?${queryString}` : ''}`);
   },
   ['products'],
-  {
-    tags: ['products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );
 
 export const getCachedFeaturedProducts = unstable_cache(
@@ -97,10 +95,7 @@ export const getCachedFeaturedProducts = unstable_cache(
     return serverApiClient.get<Product[]>('/products?limit=8&active_only=true&is_featured=true');
   },
   ['featured-products'],
-  {
-    tags: ['featured-products', 'products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );
 
 export const getCachedTopProducts = unstable_cache(
@@ -108,10 +103,7 @@ export const getCachedTopProducts = unstable_cache(
     return serverApiClient.get<Product[]>('/products?limit=6&active_only=true&is_top_product=true');
   },
   ['top-products'],
-  {
-    tags: ['top-products', 'products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );
 
 export const getCachedProductBySlug = unstable_cache(
@@ -119,10 +111,7 @@ export const getCachedProductBySlug = unstable_cache(
     return serverApiClient.get<Product>(`/products/slug/${slug}`);
   },
   ['product'],
-  {
-    tags: ['products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );
 
 export const getCachedCategoryBySlug = unstable_cache(
@@ -130,10 +119,7 @@ export const getCachedCategoryBySlug = unstable_cache(
     return serverApiClient.get<Category>(`/categories/slug/${slug}`);
   },
   ['category'],
-  {
-    tags: ['categories'],
-    revalidate: 3600, // 1 hour
-  }
+  undefined
 );
 
 export const getCachedProductsByCategory = unstable_cache(
@@ -141,10 +127,7 @@ export const getCachedProductsByCategory = unstable_cache(
     return serverApiClient.get<Product[]>(`/products?category_id=${categoryId}&limit=50&active_only=true`);
   },
   ['products-by-category'],
-  {
-    tags: ['products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );
 
 export const getCachedProductVariants = unstable_cache(
@@ -152,8 +135,5 @@ export const getCachedProductVariants = unstable_cache(
     return serverApiClient.get<ProductVariant[]>(`/products/${productId}/variants`);
   },
   ['product-variants'],
-  {
-    tags: ['products'],
-    revalidate: 1800, // 30 minutes
-  }
+  undefined
 );

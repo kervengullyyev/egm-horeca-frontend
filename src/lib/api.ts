@@ -21,6 +21,10 @@ class ApiClient {
         'Content-Type': 'application/json',
         ...options.headers,
       },
+      // Default to force-cache for GET requests unless explicitly overridden
+      ...(options.method === undefined || options.method === 'GET'
+        ? { cache: options.cache ?? 'force-cache' }
+        : {}),
       ...options,
     };
 

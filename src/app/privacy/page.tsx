@@ -108,15 +108,15 @@ export default function PrivacyPolicyPage() {
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <p className="mb-2">
               <strong>Email:</strong>{" "}
-              <a href="mailto:info@egmhoreca.com" className="text-blue-600 hover:text-blue-800 underline">
+              <Link href="mailto:info@egmhoreca.com" className="text-blue-600 hover:text-blue-800 underline">
                 info@egmhoreca.com
-              </a>
+              </Link>
             </p>
             <p className="mb-2">
               <strong>Phone:</strong>{" "}
-              <a href="tel:+40741302753" className="text-blue-600 hover:text-blue-800 underline">
+              <Link href="tel:+40741302753" className="text-blue-600 hover:text-blue-800 underline">
                 +40 741 302 753
-              </a>
+              </Link>
             </p>
             <p>
               <strong>Address:</strong> Bucharest, Romania

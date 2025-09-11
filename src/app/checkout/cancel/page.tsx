@@ -60,9 +60,9 @@ export default function CheckoutCancelPage() {
 					<div className="mt-12 p-4 bg-blue-50 rounded-lg">
 						<p className="text-sm text-blue-800">
 							Having trouble with checkout? Contact our support team at{" "}
-							<a href="mailto:support@egmhoreca.com" className="font-medium underline">
+							<Link href="mailto:support@egmhoreca.com" className="font-medium underline">
 								support@egmhoreca.com
-							</a>
+							</Link>
 						</p>
 					</div>
 				</div>

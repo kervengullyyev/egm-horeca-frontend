@@ -28,8 +28,8 @@ export default function HomePage() {
 				}
 
 				const [featuredResponse, topResponse] = await Promise.all([
-					fetch(`${API_BASE_URL}/products?limit=8&active_only=true&is_featured=true`),
-					fetch(`${API_BASE_URL}/products?limit=6&active_only=true&is_top_product=true`)
+					fetch(`${API_BASE_URL}/products?limit=8&active_only=true&is_featured=true`, { cache: 'force-cache' }),
+					fetch(`${API_BASE_URL}/products?limit=6&active_only=true&is_top_product=true`, { cache: 'force-cache' })
 				]);
 
 				if (!featuredResponse.ok || !topResponse.ok) {
