@@ -217,8 +217,6 @@ export const translations = {
     legal: "Legal",
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
-    shippingInfo: "Shipping Info",
-    returns: "Returns",
     quickLinks: "Quick Links",
     
     search: "Search",
@@ -431,8 +429,6 @@ export const translations = {
     legal: "Legal",
     privacyPolicy: "Politica de Confidențialitate",
     termsOfService: "Termeni și Condiții",
-    shippingInfo: "Informații livrare",
-    returns: "Returnări",
     quickLinks: "Linkuri rapide",
     
     search: "Căutare",

@@ -169,16 +169,6 @@ export default function Footer() {
 									{t('termsOfService')}
 								</Link>
 							</li>
-							<li>
-								<Link href="/shipping" className="hover:text-foreground transition-colors">
-									{t('shippingInfo')}
-								</Link>
-							</li>
-							<li>
-								<Link href="/returns" className="hover:text-foreground transition-colors">
-									{t('returns')}
-								</Link>
-							</li>
 						</ul>
 					</div>
 				</div>
