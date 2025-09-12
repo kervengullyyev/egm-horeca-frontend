@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Image as ImageIcon, Heart } from "lucide-react";
@@ -21,7 +21,7 @@ type ProductCardProps = {
 	isFavorited?: boolean;
 };
 
-export default function ProductCard({
+const ProductCard = memo(function ProductCard({
 	title,
 	shortDescription,
 	price,
@@ -246,6 +246,17 @@ export default function ProductCard({
 			</div>
 		</article>
 	);
-}
+}, (prevProps, nextProps) => {
+	// Custom comparison function for memo
+	return (
+		prevProps.title === nextProps.title &&
+		prevProps.price === nextProps.price &&
+		prevProps.href === nextProps.href &&
+		prevProps.productId === nextProps.productId &&
+		JSON.stringify(prevProps.images) === JSON.stringify(nextProps.images)
+	);
+});
+
+export default ProductCard;
 
 

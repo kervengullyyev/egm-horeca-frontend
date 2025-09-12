@@ -10,56 +10,56 @@ export default function AuthCallbackPage() {
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [error, setError] = useState<string>('');
 
-  const handleAuthCallback = async () => {
-    try {
-      // Get stored Google user data
-      const googleUser = googleAuthService.getStoredUser();
-      const googleCredential = googleAuthService.getStoredCredential();
-
-      if (!googleUser || !googleCredential) {
-        throw new Error('No Google authentication data found');
-      }
-
-      // Call backend SSO endpoint
-      const ssoData = {
-        provider: "google" as const,
-        token: googleCredential,
-        email: googleUser.email,
-        firstName: googleUser.firstName,
-        lastName: googleUser.lastName
-      };
-
-      await authService.ssoLogin(ssoData);
-
-      // Clear stored Google data
-      googleAuthService.clearStoredData();
-
-      // Set success status
-      setStatus('success');
-
-      // Redirect to dashboard after a short delay
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 1500);
-
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
-      setError(errorMessage);
-      setStatus('error');
-
-      // Clear stored data on error
-      googleAuthService.clearStoredData();
-
-      // Redirect back to login after error
-      setTimeout(() => {
-        router.push('/login');
-      }, 3000);
-    }
-  };
-
   useEffect(() => {
+    const handleAuthCallback = async () => {
+      try {
+        // Get stored Google user data
+        const googleUser = googleAuthService.getStoredUser();
+        const googleCredential = googleAuthService.getStoredCredential();
+
+        if (!googleUser || !googleCredential) {
+          throw new Error('No Google authentication data found');
+        }
+
+        // Call backend SSO endpoint
+        const ssoData = {
+          provider: "google" as const,
+          token: googleCredential,
+          email: googleUser.email,
+          firstName: googleUser.firstName,
+          lastName: googleUser.lastName
+        };
+
+        await authService.ssoLogin(ssoData);
+
+        // Clear stored Google data
+        googleAuthService.clearStoredData();
+
+        // Set success status
+        setStatus('success');
+
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 1500);
+
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'Authentication failed';
+        setError(errorMessage);
+        setStatus('error');
+
+        // Clear stored data on error
+        googleAuthService.clearStoredData();
+
+        // Redirect back to login after error
+        setTimeout(() => {
+          router.push('/login');
+        }, 3000);
+      }
+    };
+
     handleAuthCallback();
-  }, [handleAuthCallback]);
+  }, [router]);
 
   if (status === 'loading') {
     return (

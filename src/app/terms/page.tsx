@@ -1,11 +1,10 @@
-"use client";
 /* eslint-disable react/no-unescaped-entities */
 
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import TranslatedText from "@/components/TranslatedText";
+import LastUpdatedDate from "@/components/LastUpdatedDate";
 
 export default function TermsOfServicePage() {
-  const { t } = useTranslation();
   return (
     <main className="min-h-screen font-sans bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12">
@@ -15,27 +14,37 @@ export default function TermsOfServicePage() {
             href="/" 
             className="inline-block text-blue-600 hover:text-blue-800 transition-colors mb-6"
           >
-            {t('backToHome')}
+            <TranslatedText translationKey="backToHome" />
           </Link>
-          <h1 className="text-3xl font-bold text-black mb-6">{t('termsOfService')}</h1>
+          <h1 className="text-3xl font-bold text-black mb-6">
+            <TranslatedText translationKey="termsOfService" />
+          </h1>
         </div>
 
         {/* Content */}
         <div className="prose prose-lg max-w-none text-black">
-          <p className="mb-6 leading-relaxed">{t('termsIntro1')} {t('termsIntro2')}</p>
+          <p className="mb-6 leading-relaxed">
+            <TranslatedText translationKey="termsIntro1" /> <TranslatedText translationKey="termsIntro2" />
+          </p>
           
           <p className="mb-6 leading-relaxed">
             EGM HORECA ("we," "our," or "us") operates the website egmhoreca.com, which provides professional tableware and kitchen equipment sales, and related hospitality services. Our service is designed to connect customers with high-quality professional kitchen and dining equipment.
           </p>
           
-          <p className="mb-8 leading-relaxed">{t('termsIntro3')}</p>
+          <p className="mb-8 leading-relaxed">
+            <TranslatedText translationKey="termsIntro3" />
+          </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('acceptanceOfTerms')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="acceptanceOfTerms" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using this website's particular services, you shall be subject to any posted guidelines or rules applicable to such services. Any participation in this service will constitute acceptance of this agreement.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('useLicense')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="useLicense" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             Permission is granted to temporarily download one copy of the materials (information or software) on EGM HORECA's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
           </p>
@@ -50,7 +59,9 @@ export default function TermsOfServicePage() {
             This license shall automatically terminate if you violate any of these restrictions and may be terminated by EGM HORECA at any time.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('userAccounts')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="userAccounts" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             When you create an account with us, you must provide information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.
           </p>
@@ -58,7 +69,9 @@ export default function TermsOfServicePage() {
             You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password, whether your password is with our Service or a third-party service. You agree not to disclose your password to any third party.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('productInfoPricing')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="productInfoPricing" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             We strive to display accurate product information, including descriptions, images, and pricing. However, we do not warrant that product descriptions, colors, information, or other content available on the Service is accurate, complete, reliable, current, or error-free.
           </p>
@@ -66,7 +79,9 @@ export default function TermsOfServicePage() {
             All prices are subject to change without notice. We reserve the right to modify or discontinue any product at any time. Prices do not include applicable taxes, shipping, or handling charges, which will be added to your order total.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('orderingPayment')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="orderingPayment" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             By placing an order through our Service, you represent and warrant that you are legally capable of entering into binding contracts and that you have the legal right to purchase the products you are ordering.
           </p>
@@ -77,7 +92,9 @@ export default function TermsOfServicePage() {
             We accept payment through Stripe, a secure third-party payment processor. By providing your payment information, you authorize us to charge the applicable amount to your chosen payment method.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('shippingDelivery')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="shippingDelivery" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             Delivery times are estimates only and may vary depending on your location and the availability of products. We are not responsible for delays beyond our control, including but not limited to weather conditions, customs delays, or carrier issues.
           </p>
@@ -85,7 +102,9 @@ export default function TermsOfServicePage() {
             Risk of loss and title for items purchased pass to you upon delivery of the items to the carrier. You are responsible for filing any claims with carriers for damaged or lost shipments.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('returnsRefunds')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="returnsRefunds" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             We want you to be completely satisfied with your purchase. If you are not satisfied, you may return most items within 30 days of delivery for a refund or exchange, subject to the following conditions:
           </p>
@@ -100,12 +119,16 @@ export default function TermsOfServicePage() {
             Refunds will be processed within 5-10 business days after we receive and inspect the returned items. Refunds will be issued to the original payment method used for the purchase.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('intellectualProperty')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="intellectualProperty" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             The Service and its original content, features, and functionality are and will remain the exclusive property of EGM HORECA and its licensors. The Service is protected by copyright, trademark, and other laws. Our trademarks and trade dress may not be used in connection with any product or service without our prior written consent.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('prohibitedUses')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="prohibitedUses" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             You may use our Service only for lawful purposes and in accordance with these Terms. You agree not to use the Service:
           </p>
@@ -117,27 +140,37 @@ export default function TermsOfServicePage() {
             <li>To introduce viruses, trojan horses, worms, logic bombs, or other material that is malicious or technologically harmful</li>
           </ul>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('limitationOfLiability')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="limitationOfLiability" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             In no event shall EGM HORECA, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your use of the Service.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('disclaimerOfWarranties')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="disclaimerOfWarranties" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             The information on this website is provided on an "as is" basis. To the fullest extent permitted by law, EGM HORECA excludes all representations, warranties, conditions, and terms whether express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('governingLaw')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="governingLaw" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             These Terms shall be interpreted and governed by the laws of Romania, without regard to its conflict of law provisions. Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('changesToTerms')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="changesToTerms" />
+          </h2>
           <p className="mb-6 leading-relaxed">
             We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
           </p>
 
-          <h2 className="text-2xl font-bold text-black mb-4">{t('contactInformation')}</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">
+            <TranslatedText translationKey="contactInformation" />
+          </h2>
           <p className="mb-4 leading-relaxed">
             If you have any questions about these Terms of Service, please contact us:
           </p>
@@ -159,13 +192,7 @@ export default function TermsOfServicePage() {
             </p>
           </div>
 
-          <p className="text-sm text-gray-600">
-            Last updated: {new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
+          <LastUpdatedDate />
         </div>
       </div>
     </main>

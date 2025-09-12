@@ -209,6 +209,8 @@ export const api = {
     max_price?: number;
     brand?: string;
     language?: string;
+    is_featured?: boolean;
+    is_top_product?: boolean;
   }) => {
     const searchParams = new URLSearchParams();
     if (params) {

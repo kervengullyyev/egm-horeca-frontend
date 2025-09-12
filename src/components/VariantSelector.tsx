@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTranslation } from "react-i18next";
 import { ProductVariant } from "@/lib/api";
@@ -16,14 +16,14 @@ export default function VariantSelector({
   variants, 
   variantType,
   onVariantChange, 
-  initialPrice 
+  // initialPrice 
 }: VariantSelectorProps) {
   const [selectedVariants, setSelectedVariants] = useState<Record<string, ProductVariant>>({});
   const { currentLanguage } = useLanguage();
   const { t } = useTranslation();
 
   // All variants are of the same type, so we use a single group
-  const variantGroups = { [variantType]: variants };
+  const variantGroups = useMemo(() => ({ [variantType]: variants }), [variantType, variants]);
 
   // Auto-select first variant of each type on component mount
   useEffect(() => {
@@ -41,30 +41,12 @@ export default function VariantSelector({
     });
     
     setSelectedVariants(autoSelectedVariants);
-  }, [variants]); // Only run when variants change
+  }, [variantGroups]); // Only run when variantGroups change
 
+  // Notify parent component when variants change
   useEffect(() => {
-    // Calculate total price based on selected variants
-    let total = 0;
-    if (Object.keys(selectedVariants).length > 0) {
-      // If variants are selected, use the first variant's price as base
-      const firstVariant = Object.values(selectedVariants)[0];
-      total = firstVariant.price;
-      
-      // If multiple variants are selected, use the highest price
-      Object.values(selectedVariants).forEach(variant => {
-        if (variant.price > total) {
-          total = variant.price;
-        }
-      });
-    } else {
-      // If no variants selected, use initial price
-      total = initialPrice;
-    }
-    
-    // Notify parent component of selected variants
     onVariantChange(selectedVariants);
-  }, [selectedVariants, initialPrice, onVariantChange]);
+  }, [selectedVariants, onVariantChange]);
 
   const handleVariantSelect = (variant: ProductVariant) => {
     // Since we only have one variant type, we can clear previous selection and set new one

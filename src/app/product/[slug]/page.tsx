@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
-import ProductPageClient from "@/components/ProductPageClient";
 import { getCachedProductBySlug, getCachedProductVariants, getCachedProducts } from "@/lib/server-api";
 import { ProductVariant, Product } from "@/lib/api";
+import ProductImageGalleryMinimal from "@/components/ProductImageGalleryMinimal";
+import ProductDetailsClient from "@/components/ProductDetailsClient";
+import RelatedProducts from "@/components/RelatedProducts";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
 	const { slug } = await params;
@@ -37,13 +39,32 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 				relatedProducts = [];
 			}
 		}
-		
+
+		// Use product images or fallback to placeholder
+		const images = product.images && product.images.length > 0 ? product.images : [];
+		const productName = product.name_en;
+		const productDescription = product.description_en;
+
 		return (
-			<ProductPageClient 
-				product={product} 
-				variants={variants} 
-				relatedProducts={relatedProducts} 
-			/>
+			<main className="min-h-screen font-sans">
+				<div className="mx-auto max-w-7xl px-4 py-8">
+					<div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+						{/* Left: Gallery */}
+						<ProductImageGalleryMinimal images={images} productName={productName} />
+
+						{/* Right: Details - Client Component */}
+						<ProductDetailsClient
+							product={product}
+							variants={variants}
+							productName={productName}
+							productDescription={productDescription}
+						/>
+					</div>
+
+					{/* Related Products - Client component */}
+					<RelatedProducts products={relatedProducts} />
+				</div>
+			</main>
 		);
 	} catch (error) {
 		console.error("Error fetching product:", error);

@@ -1,7 +1,7 @@
-"use client";
 /* eslint-disable react/no-unescaped-entities */
 
 import Link from "next/link";
+import LastUpdatedDate from "@/components/LastUpdatedDate";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -123,13 +123,7 @@ export default function PrivacyPolicyPage() {
             </p>
           </div>
 
-          <p className="text-sm text-gray-600">
-            Last updated: {new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
-          </p>
+          <LastUpdatedDate />
         </div>
       </div>
     </main>
